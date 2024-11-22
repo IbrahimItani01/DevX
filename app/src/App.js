@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Signup from './components/Signup';
+import SignForm from './components/SignForm';
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<SignForm />} />
       </Routes>
     </BrowserRouter>
 

@@ -1,10 +1,10 @@
 import React from 'react';
-
-const FormInput = ({ label, type, name }) => {
+import './../styles/base.css';
+const FormInput = ({ label, type, name, placeholder }) => {
   return (
-    <div>
+    <div className="flex column">
       <div><label>{label}</label></div>
-      <input type={type} name={name} />
+      <input type={type} name={name} placeholder={placeholder} />
     </div>
   );
 };
