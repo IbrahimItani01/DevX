@@ -1,6 +1,7 @@
 import './../styles/base.css';
 import './../styles/signup.css';
 import FormInput from './FormInput';
+import Button from './base/Button';
 const SignForm = () => {
 
   return (<>
@@ -14,7 +15,9 @@ const SignForm = () => {
         <FormInput label="Password" type="password" name="password" placeholder="Enter your password" />
         <FormInput label="Confirm Password" type="password" name="text" placeholder="Confirm your password" />
       </div>
-      <div><button>Sign in</button></div>
+      {/* <div><button>Sign in</button></div> */}
+      <div><Button text="Sign up" /></div>
+
       <p>Have an Account? LOGIN</p>
 
     </div>
