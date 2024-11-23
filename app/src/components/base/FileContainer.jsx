@@ -1,6 +1,6 @@
 import React, {useState } from 'react'
 import {ArrowRight, File} from 'lucide-react';
-const FileContainer = ({name="Bob",collabs=1}) => {
+const FileContainer = ({name,collabs=1}) => {
   const [active,setActive] = useState(false)
   const handleFileOpen = ()=>{
     setActive(!active);
