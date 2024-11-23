@@ -1,5 +1,5 @@
 .base-button {
-  background-color: #90FCF9;
+  background-color: var(--primary-color);
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
