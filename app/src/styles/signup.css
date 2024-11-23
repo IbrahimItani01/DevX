@@ -1,0 +1,29 @@
+.signForm {
+  width: 100%;
+  min-width: 300px;
+  max-width: 600px;
+  background-color: #FFFFFF;
+}
+
+.row {
+  width: 100%;
+  gap: 50px;
+}
+
+input {
+  width: 100%;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #90FCF9;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
