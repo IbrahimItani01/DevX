@@ -5,10 +5,14 @@ import Input from "../base/Input";
 import Button from "../base/Button";
 import { sendInvite } from "../../apis/sendInvite";
 import { Check } from "lucide-react";
+
 const InviteField = () => {
   const [activeRole, setActiveRole] = useState(null);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const handleRoleToggle = (role) => {
+    setActiveRole(activeRole === role ? null : role);
+  };
   return (
     <div className='invite-section'>
       <RoleIcon role={"edit"}/>
