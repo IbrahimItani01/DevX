@@ -3,9 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JwtController;
 
 Route::post('/send-invite', [EmailController::class, 'sendEmail']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::post('/decode-token', [JwtController::class, 'decodeToken']);
+Route::post('/login', [JwtController::class, 'login']);
+Route::post('/register', [JwtController::class, 'register']);
