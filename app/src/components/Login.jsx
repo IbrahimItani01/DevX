@@ -5,9 +5,11 @@ import Button from "./base/Button";
 import { requestLogin } from "../apis/auth";
 const Login = () => {
     const navigate = useNavigate();
-    const handleNav = ()=>{
-      navigate("/")
-    }
+  const [empty, setEmpty] = useState(true);
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+  });
   return (
     <>
     <FormInput label="Email" type="text" name="email" placeholder="Enter your email" />
