@@ -5,6 +5,7 @@ import "./styles/layout.css"
 import Register from "./components/Register";
 import Login from "./components/Login";
 import FilesProvider from "./context/FilesContext";
+import UserProvider from "./context/UserContext";
 function App() {
   return (
     <BrowserRouter>
@@ -18,7 +19,9 @@ function App() {
         
         <Route path="/panel" element={
           <FilesProvider>
+            <UserProvider>
               <MainPanel/>
+            </UserProvider>
           </FilesProvider>
           }/>
       </Routes>
