@@ -13,6 +13,9 @@ const InviteField = () => {
   const handleRoleToggle = (role) => {
     setActiveRole(activeRole === role ? null : role);
   };
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+  };
   return (
     <div className='invite-section'>
       <RoleIcon role={"edit"}/>
