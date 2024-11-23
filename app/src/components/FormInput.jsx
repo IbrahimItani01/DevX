@@ -2,11 +2,11 @@ import React from 'react';
 import './../styles/base.css';
 import Input from './base/Input';
 
-const FormInput = ({ label, type, placeholder }) => {
+const FormInput = ({name, label, type, placeholder,onChange,value }) => {
   return (
     <div className="flex column">
       <div><label>{label}</label></div>
-      <Input type={type} placeholder={placeholder} />
+      <Input name={name} type={type} placeholder={placeholder} value={value} onChange={onChange} />
     </div>
   );
 };
