@@ -4,6 +4,7 @@ import MainPanel from "./components/MainPanel";
 import "./styles/layout.css"
 import Register from "./components/Register";
 import Login from "./components/Login";
+import FilesProvider from "./context/FilesContext";
 function App() {
   return (
     <BrowserRouter>
@@ -15,7 +16,11 @@ function App() {
             <Login/>
         </SignForm>} />
         
-        <Route path="/panel" element={<MainPanel/>}/>
+        <Route path="/panel" element={
+          <FilesProvider>
+              <MainPanel/>
+          </FilesProvider>
+          }/>
       </Routes>
     </BrowserRouter>
 
