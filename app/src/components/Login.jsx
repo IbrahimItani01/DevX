@@ -4,7 +4,7 @@ import FormInput from "./FormInput";
 import Button from "./base/Button";
 import { requestLogin } from "../apis/auth";
 const Login = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [empty, setEmpty] = useState(true);
   const [login, setLogin] = useState({
     email: "",
@@ -27,13 +27,28 @@ const Login = () => {
   };
   return (
     <>
-    <FormInput label="Email" type="text" name="email" placeholder="Enter your email" />
-    <FormInput label="Password" type="password" name="password" placeholder="Enter your password" />
-
- <button>Sign in</button>
-         <p>Don't have an Account? <span onClick={handleNav}>SIGNUP</span></p> 
+      <FormInput
+        label="Email"
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        value={login.email}
+        onChange={handleChange}
+      />
+      <FormInput
+        label="Password"
+        type="password"
+        name="password"
+        placeholder="Enter your password"
+        value={login.password}
+        onChange={handleChange}
+      />
+      <Button text={"Sign In"} disabled={empty} onClick={handleLogin} />
+      <p>
+        Don't have an Account? <span onClick={handleNav}>SIGNUP</span>
+      </p>
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
