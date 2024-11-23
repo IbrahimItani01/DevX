@@ -1,7 +1,8 @@
-import React from 'react'
-import FormInput from './FormInput'
-import { useNavigate } from 'react-router-dom';
-import Button from './base/Button';
+import React, { useState } from "react";
+import FormInput from "./FormInput";
+import { useNavigate } from "react-router-dom";
+import Button from "./base/Button";
+import { requestRegister } from "../apis/auth";
 
 const Register = () => {
     const navigate = useNavigate();
