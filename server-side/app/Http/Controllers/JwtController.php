@@ -49,11 +49,9 @@ class JwtController extends Controller
 
 
         $payload = [
-            'sub' => $user->id,
+            'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'iat' => time(),
-            'exp' => time() + 3600,
         ];
 
         $token = JWT::encode($payload, $this->secretKey, 'HS256');
