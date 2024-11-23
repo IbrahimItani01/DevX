@@ -17,7 +17,6 @@ return new class extends Migration
             $table->integer('owner_id');
             $table->string('file_name', 45);
             $table->longText('file_content')->nullable();
-            $table->unique('owner_id');
         });
     }
 
