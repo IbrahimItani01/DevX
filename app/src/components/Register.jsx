@@ -13,6 +13,18 @@ const Register = () => {
     password: "",
     confirm: "",
   });
+  const handleChange = (e) => {
+    setEmpty(false);
+    const { name, value } = e.target;
+    setRegister((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleRegister = () => {
+    // requestRegister(register)
+    console.log(register)
+  };
   return (
    <>
     <div className='row flex justify-center'>
