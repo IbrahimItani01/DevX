@@ -1,6 +1,6 @@
 import React, {useState } from 'react'
 import {ArrowRight, File} from 'lucide-react';
-const FileContainer = ({name,collabs=1}) => {
+const FileContainer = ({name,collabs=0}) => {
   const [active,setActive] = useState(false)
   const handleFileOpen = ()=>{
     setActive(!active);
@@ -13,7 +13,7 @@ const FileContainer = ({name,collabs=1}) => {
             <p>{name}</p>
             {active && <ArrowRight color='black'/>}
           </div>
-          <em>{collabs}</em>
+          {collabs>0 && <em>{collabs}</em> }
       </div>
       <div className='separator'></div>
     </div>
