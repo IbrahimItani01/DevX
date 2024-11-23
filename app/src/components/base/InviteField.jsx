@@ -28,13 +28,34 @@ const InviteField = () => {
     }, 1500);
   };
   return (
-    <div className='invite-section'>
-      <RoleIcon role={"edit"}/>
-      <RoleIcon role={"view"}/>
-      <Input type='email' placeholder='Invitee Email ...'></Input>
-      <Button text={"Invite"}/>
+    <div className="invite-section">
+      <RoleIcon
+        role="edit"
+        isActive={activeRole === "edit"}
+        onClick={() => handleRoleToggle("edit")}
+      />
+      <RoleIcon
+        role="view"
+        isActive={activeRole === "view"}
+        onClick={() => handleRoleToggle("view")}
+      />
+      <Input
+        onChange={handleChange}
+        value={email}
+        type="email"
+        placeholder="Invitee Email ..."
+      />
+      {sent ? (
+        <Check width={50} />
+      ) : (
+        <Button
+          onClick={handleSend}
+          text={"Invite"}
+          disabled={email === "" ? true : false}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default InviteField
+export default InviteField;
