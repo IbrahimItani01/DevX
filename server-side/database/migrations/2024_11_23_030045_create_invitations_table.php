@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'accepted', 'rejected']);
             $table->string('sender_email', 45);
             $table->string('receiver_email', 45);
-            $table->integer('file_id');
+            $table->unsignedBigInteger('file_id');
             $table->foreign('file_id')->references('file_id')->on('files')->onDelete('no action');
 
 

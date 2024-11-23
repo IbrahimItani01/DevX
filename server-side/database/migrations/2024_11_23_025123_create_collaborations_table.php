@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('collaborations', function (Blueprint $table) {
-            $table->integer('collaborater_id');
-            $table->integer('file_id');
+            $table->unsignedBigInteger('collaborater_id');
+            $table->unsignedBigInteger('file_id');
             $table->enum('privilige', ['editor', 'viewer']);
             $table->primary(['collaborater_id', 'file_id']);
-            $table->foreign('collaborater_id')->references('user_id')->on('users')->onDelete('no action');
-            $table->foreign('file_id')->references('file_id')->on('files')->onDelete('no action');
+            $table->foreign('collaborater_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->foreign('file_id')->references('file_id')->on('files')->onUpdate('cascade');
         });
     }
 
