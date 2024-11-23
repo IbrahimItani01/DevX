@@ -10,6 +10,21 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const handleNav = () => {
+    navigate("/");
+  };
+  const handleChange = (e) => {
+    setEmpty(false);
+    const { name, value } = e.target;
+    setLogin((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleLogin = () => {
+    // requestLogin(login)
+    console.log(login);
+  };
   return (
     <>
     <FormInput label="Email" type="text" name="email" placeholder="Enter your email" />
