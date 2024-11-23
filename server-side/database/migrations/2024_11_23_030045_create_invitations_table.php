@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invitations', function (Blueprint $table) {
-            $table->id('invitation_id');
+            $table->id();
             $table->enum('status', ['pending', 'accepted', 'rejected']);
             $table->string('sender_email', 45);
             $table->string('receiver_email', 45);
-            $table->unsignedBigInteger('file_id');
-            $table->foreign('file_id')->references('file_id')->on('files')->onDelete('no action');
+            $table->foreignId('file_id')->constrained('files');
 
 
         });
