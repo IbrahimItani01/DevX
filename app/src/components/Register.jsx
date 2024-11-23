@@ -6,9 +6,13 @@ import { requestRegister } from "../apis/auth";
 
 const Register = () => {
     const navigate = useNavigate();
-    const handleNav = ()=>{
-      navigate("/login")
-    }
+  const [empty, setEmpty] = useState(true);
+  const [register, setRegister] = useState({
+    email: "",
+    name: "",
+    password: "",
+    confirm: "",
+  });
   return (
    <>
     <div className='row flex justify-center'>
