@@ -23,10 +23,23 @@ const Compiler = () => {
     };
   }, []);
   return (
-    <div>
-      hi
+    <div className="compiler-section">
+      <div className="editor">
+        <Editor
+          height="95vh"
+          theme="vs-dark"
+          defaultLanguage="javascript"
+          defaultValue="// some comment"
+          onMount={handleMount}
+        />
+        <Play color="black" className="play" />
+      </div>
+      <div className="input-output">
+        <div className="input">input</div>
+        <div className="output">output</div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Compiler
+export default Compiler;
