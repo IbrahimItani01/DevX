@@ -16,6 +16,17 @@ const InviteField = () => {
   const handleChange = (e) => {
     setEmail(e.target.value);
   };
+  const handleSend = () => {
+    // sendInvite(email)
+    console.log(email);
+    console.log(activeRole);
+    setActiveRole(null);
+    setEmail("");
+    setSent(true);
+    setTimeout(() => {
+      setSent(false);
+    }, 1500);
+  };
   return (
     <div className='invite-section'>
       <RoleIcon role={"edit"}/>
