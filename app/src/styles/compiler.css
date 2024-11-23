@@ -1,0 +1,31 @@
+.compiler-section{    height: 100%;
+    display: flex;
+}
+.editor{
+    width: 70%;
+    border-right: 1px solid white;
+    position: relative;
+}
+.input-output{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+.input{
+    height: 50%;
+    border-bottom: 1px solid wheat;
+}
+.play   {
+    width: 60px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    height: 30px;
+    background-color:white;
+    border: 1px solid var(--primary-color);
+    color: black;
+    position:absolute;
+    top:10px;
+    right:10px;
+    z-index:100;
+    cursor: pointer;
+}
