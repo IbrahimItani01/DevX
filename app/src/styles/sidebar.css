@@ -19,7 +19,15 @@
     width: 90%;
     align-items: center;
     gap: 5px;
+    position: relative;
 }
+.add-file>em{
+    position: absolute;
+    color: black;
+    top: 60px;
+    font-size: 13px;
+}
+
 .add-file>input{
     border: 1px solid black;
 }
