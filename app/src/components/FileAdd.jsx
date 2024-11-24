@@ -4,7 +4,7 @@ import { filesContext } from '../context/FilesContext';
 const FileAdd = () => {
     const [fileName,setFileName] = useState("");
     const [alert,setAlert]=useState(false);
-    const {setFilesData}=useContext(filesContext);
+    const {filesData,setFilesData}=useContext(filesContext);
     const handleChange = (e)=>{
         setFileName(e.target.value);
     }
@@ -14,7 +14,7 @@ const FileAdd = () => {
           setFilesData((prev)=>[
             ...prev,
             {
-              id:2,
+              id:filesData.length + 1,
               fileName
             }
           ]
