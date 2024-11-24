@@ -8,8 +8,8 @@ import SignOut from "./SignOut";
 import { filesContext } from "../../context/FilesContext";
 
 const SideBar = () => {
-    const { filesData, selectFile } = useContext(filesContext);
-const [activeFileId, setActiveFileId] = useState(null); // Track active file
+  const { filesData, selectFile } = useContext(filesContext);
+  const [activeFileId, setActiveFileId] = useState(null); // Track active file
   const navigate = useNavigate();
 
   const handleFileClick = (fileId) => {
@@ -27,21 +27,26 @@ const [activeFileId, setActiveFileId] = useState(null); // Track active file
   };
 
   return (
-    <div className='side-bar'>
-      <div className='file-add'>
-        <img alt='logo' src={blackLogo} width={50}></img>
-        <FileAdd/>
+    <div className="side-bar">
+      <div className="file-add">
+        <img alt="logo" src={blackLogo} width={50}></img>
+        <FileAdd />
       </div>
-      <div className='files-list'>
-        {filesData.map((file)=>(
-            <FileContainer name={file.fileName} key={file.id}/>
+      <div className="files-list">
+        {filesData.map((file) => (
+          <FileContainer
+            name={file.fileName}
+            key={file.id}
+            active={file.id === activeFileId} // Check if this file is active
+            onClick={() => handleFileClick(file.id)}
+          />
         ))}
       </div>
-      <div className='signout'>
-        <SignOut/>
+      <div className="signout">
+        <SignOut />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SideBar
+export default SideBar;
