@@ -11,3 +11,6 @@ Route::post('/send-invite', [EmailController::class, 'sendEmail']);
 Route::post('/decode-token', [JwtController::class, 'decodeToken']);
 Route::post('/login', [JwtController::class, 'login']);
 Route::post('/register', [JwtController::class, 'register']);
+use App\Http\Controllers\FileController;
+
+Route::post('/upload', [FileController::class, 'store']);
