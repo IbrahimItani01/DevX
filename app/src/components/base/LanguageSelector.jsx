@@ -8,8 +8,8 @@ const LanguageSelector = ({ language, onSelect }) => {
     <div>
       <select
         name="LANGUAGE"
-        value={language} // Ensures the selected value is tied to the `language` prop
-        onChange={(e) => onSelect(e.target.value)} // Trigger `onSelect` on change
+        value={language} 
+        onChange={(e) => onSelect(e.target.value)} 
       >
         {languages.map(([lang, version]) => (
           <option key={lang} value={lang}>
