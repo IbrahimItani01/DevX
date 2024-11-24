@@ -8,6 +8,8 @@ import FilesProvider from "./context/FilesContext";
 import UserProvider from "./context/UserContext";
 import { AuthProvider } from "./context/AuthContext.js";
 import ProtectedRoute from "./components/ProtectedRoute";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -44,6 +46,13 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        limit={1}
+        closeOnClick
+        theme="dark"
+      />
     </AuthProvider>
   );
 }
