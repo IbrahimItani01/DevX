@@ -14,6 +14,13 @@
     align-items: center;
     gap: 10px;
 }
+.file-add>img{
+    cursor: pointer;
+}
+.file-add>p{
+    color: black;
+    margin-top: 10px;
+}
 .add-file{
     display: flex;
     width: 90%;
