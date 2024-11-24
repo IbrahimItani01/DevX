@@ -6,13 +6,12 @@ import LanguageSelector from "./LanguageSelector";
 import InputSection from "./InputSection";
 import Output from "./Output";
 import { executeCode } from "../../apis/compile";
-import { toast } from "react-toastify";
 import useWindowResize from "../../hooks/useWindowsResize";
 import { snippets, defaultOutput, defaultLanguage } from "../../constants";
 
 const Compiler = () => {
   const editorRef = useRef(null);
-const [output, setOutput] = useState(defaultOutput);
+  const [output, setOutput] = useState(defaultOutput);
   const [language, setLanguage] = useState(defaultLanguage);
   const [script, setScript] = useState(snippets[defaultLanguage]);
   const [userInput, setUserInput] = useState("");
@@ -25,9 +24,9 @@ const [output, setOutput] = useState(defaultOutput);
 
   // Resize Handler for Editor
   useWindowResize(() => {
-      if (editorRef.current) {
-        editorRef.current.layout();
-      }
+    if (editorRef.current) {
+      editorRef.current.layout();
+    }
   });
 
   // Language Selection Handler
@@ -45,7 +44,6 @@ const [output, setOutput] = useState(defaultOutput);
       const { run: result } = await executeCode(language, sourceCode, userInput);
       setOutput(result.output);
     } catch (error) {
-      toast("An error occurred");
       console.error(error);
     }
   };
@@ -55,21 +53,23 @@ const [output, setOutput] = useState(defaultOutput);
       <div className="editor">
         <div className="editor-actions">
           <LanguageSelector language={language} onSelect={onSelect} />
-          <Play color="black" className="play" />
+          <Play onClick={runCode} color="black" className="play" />
         </div>
         <Editor
-          height="95vh"
+          height="100%"
           theme="vs-dark"
           language={language}
-          defaultValue="// Life is short, write code"
-          onMount={handleMount}
           value={script}
+          onMount={handleMount}
           onChange={(value) => setScript(value)}
+          options={{
+            fontSize: "20px",
+          }}
         />
       </div>
       <div className="input-output">
-        <div className="input">input</div>
-        <div className="output">output</div>
+        <InputSection userInput={userInput} setUserInput={setUserInput} />
+        <Output output={output} />
       </div>
     </div>
   );
