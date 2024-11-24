@@ -1,4 +1,4 @@
-import React, {useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "../../styles/compiler.css";
 import Editor from "@monaco-editor/react";
 import { Play } from "lucide-react";
@@ -9,12 +9,17 @@ import { executeCode } from "../../apis/compile";
 import useWindowResize from "../../hooks/useWindowsResize";
 import { snippets, defaultOutput, defaultLanguage } from "../../constants";
 
-const Compiler = () => {
+const Compiler = ({ file, updateFileContent }) => {
   const editorRef = useRef(null);
   const [output, setOutput] = useState(defaultOutput);
   const [language, setLanguage] = useState(defaultLanguage);
-  const [script, setScript] = useState(snippets[defaultLanguage]);
+  const [script, setScript] = useState(file.content || snippets[defaultLanguage]);
   const [userInput, setUserInput] = useState("");
+
+  // Update the local script when the file changes
+  useEffect(() => {
+    setScript(file.content || snippets[defaultLanguage]);
+  }, [file]);
 
   // Handle Editor Initialization
   const handleMount = (editor) => {
@@ -48,6 +53,14 @@ const Compiler = () => {
     }
   };
 
+  // Sync script changes with the parent
+  const handleScriptChange = (value) => {
+    setScript(value);
+    if (updateFileContent) {
+      updateFileContent(file.id, value);
+    }
+  };
+
   return (
     <div className="compiler-section">
       <div className="editor">
@@ -61,7 +74,7 @@ const Compiler = () => {
           language={language}
           value={script}
           onMount={handleMount}
-          onChange={(value) => setScript(value)}
+          onChange={handleScriptChange}
           options={{
             fontSize: "20px",
           }}
