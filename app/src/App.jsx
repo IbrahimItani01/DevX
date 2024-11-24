@@ -31,7 +31,7 @@ function App() {
             }
           />
           <Route
-            path="/panel"
+            path="/panel/*"
             element={
               <ProtectedRoute>
                 <FilesProvider>
