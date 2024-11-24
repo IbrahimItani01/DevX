@@ -29,8 +29,9 @@ const SideBar = () => {
   return (
     <div className="side-bar">
       <div className="file-add">
-        <img alt="logo" src={blackLogo} width={50}></img>
+        <img alt="logo" src={blackLogo} width={50} onClick={()=>navigate("/panel")}></img>
         <FileAdd />
+        <p>Ctrl+s to save file!</p>
       </div>
       <div className="files-list">
         {filesData.map((file) => (
