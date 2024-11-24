@@ -17,17 +17,11 @@ const Compiler = () => {
       if (editorRef.current) {
         editorRef.current.layout();
       }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-  const onSelect = (lang)=>{
-    setLanguage(lang)
-  }
+  // Language Selection Handler
+  const onSelect = (lang) => {
+    setLanguage(lang);
+    setScript(snippets[lang]);
+  };
   return (
     <div className="compiler-section">
       <div className="editor">
