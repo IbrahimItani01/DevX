@@ -12,8 +12,12 @@ import { snippets, defaultOutput, defaultLanguage } from "../../constants";
 
 const Compiler = () => {
   const editorRef = useRef(null);
-  const [language,setLanguage]=useState('javascript');
-  const [script, setScript] = useState("");
+const [output, setOutput] = useState(defaultOutput);
+  const [language, setLanguage] = useState(defaultLanguage);
+  const [script, setScript] = useState(snippets[defaultLanguage]);
+  const [userInput, setUserInput] = useState("");
+
+  // Handle Editor Initialization
   const handleMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
