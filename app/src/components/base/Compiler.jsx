@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../styles/compiler.css";
 import Editor from "@monaco-editor/react";
 import { Play } from "lucide-react";
@@ -8,24 +8,41 @@ import Output from "./Output";
 import { executeCode } from "../../apis/compile";
 import useWindowResize from "../../hooks/useWindowsResize";
 import { snippets, defaultOutput, defaultLanguage } from "../../constants";
+import { toast } from "react-toastify";
 
-const Compiler = ({ file, updateFileContent }) => {
+const Compiler = ({ file, saveContent }) => {
   const editorRef = useRef(null);
   const [output, setOutput] = useState(defaultOutput);
   const [language, setLanguage] = useState(defaultLanguage);
-  const [script, setScript] = useState(file.content || snippets[defaultLanguage]);
+  const [script, setScript] = useState(
+    file.content || snippets[defaultLanguage]
+  );
   const [userInput, setUserInput] = useState("");
 
-  // Update the local script when the file changes
-  useEffect(() => {
-    setScript(file.content || snippets[defaultLanguage]);
-  }, [file]);
-
-  // Handle Editor Initialization
-  const handleMount = (editor) => {
-    editorRef.current = editor;
-    editor.focus();
+  // Handle Save Shortcut
+  const handleSaveShortcut = (e) => {
+    if (e.ctrlKey && e.key === "s") {
+      e.preventDefault();
+      const sourceCode = editorRef.current.getValue();
+      saveContent(file.id, sourceCode);
+      setScript(sourceCode); // Update script to reflect the saved content
+      toast.success("File saved successfully!");
+    }
   };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleSaveShortcut);
+    return () => {
+      document.removeEventListener("keydown", handleSaveShortcut);
+    };
+  }, []);
+
+  // Update Editor Content When File Changes
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.setValue(file.content || snippets[language]);
+    }
+  }, [language]);
 
   // Resize Handler for Editor
   useWindowResize(() => {
@@ -34,30 +51,20 @@ const Compiler = ({ file, updateFileContent }) => {
     }
   });
 
-  // Language Selection Handler
-  const onSelect = (lang) => {
-    setLanguage(lang);
-    setScript(snippets[lang]);
-  };
-
   // Code Execution
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
 
     try {
-      const { run: result } = await executeCode(language, sourceCode, userInput);
+      const { run: result } = await executeCode(
+        language,
+        sourceCode,
+        userInput
+      );
       setOutput(result.output);
     } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Sync script changes with the parent
-  const handleScriptChange = (value) => {
-    setScript(value);
-    if (updateFileContent) {
-      updateFileContent(file.id, value);
+      toast.error(error);
     }
   };
 
@@ -65,7 +72,7 @@ const Compiler = ({ file, updateFileContent }) => {
     <div className="compiler-section">
       <div className="editor">
         <div className="editor-actions">
-          <LanguageSelector language={language} onSelect={onSelect} />
+          <LanguageSelector language={language} onSelect={setLanguage} />
           <Play onClick={runCode} color="black" className="play" />
         </div>
         <Editor
@@ -73,8 +80,8 @@ const Compiler = ({ file, updateFileContent }) => {
           theme="vs-dark"
           language={language}
           value={script}
-          onMount={handleMount}
-          onChange={handleScriptChange}
+          onMount={(editor) => (editorRef.current = editor)}
+          onChange={(value) => setScript(value)}
           options={{
             fontSize: "20px",
           }}
