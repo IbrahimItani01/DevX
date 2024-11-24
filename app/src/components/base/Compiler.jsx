@@ -1,8 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useRef, useState } from "react";
 import "../../styles/compiler.css";
 import Editor from "@monaco-editor/react";
 import { Play } from "lucide-react";
 import LanguageSelector from "./LanguageSelector";
+import InputSection from "./InputSection";
+import Output from "./Output";
+import { executeCode } from "../../apis/compile";
+import { toast } from "react-toastify";
+import useWindowResize from "../../hooks/useWindowsResize";
+import { snippets, defaultOutput, defaultLanguage } from "../../constants";
 
 const Compiler = () => {
   const editorRef = useRef(null);
