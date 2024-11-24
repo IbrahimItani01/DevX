@@ -22,16 +22,34 @@ const [output, setOutput] = useState(defaultOutput);
     editorRef.current = editor;
     editor.focus();
   };
-  useEffect(() => {
-    const handleResize = () => {
+
+  // Resize Handler for Editor
+  useWindowResize(() => {
       if (editorRef.current) {
         editorRef.current.layout();
       }
+  });
+
   // Language Selection Handler
   const onSelect = (lang) => {
     setLanguage(lang);
     setScript(snippets[lang]);
   };
+
+  // Code Execution
+  const runCode = async () => {
+    const sourceCode = editorRef.current.getValue();
+    if (!sourceCode) return;
+
+    try {
+      const { run: result } = await executeCode(language, sourceCode, userInput);
+      setOutput(result.output);
+    } catch (error) {
+      toast("An error occurred");
+      console.error(error);
+    }
+  };
+
   return (
     <div className="compiler-section">
       <div className="editor">
