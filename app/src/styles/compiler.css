@@ -5,6 +5,16 @@
     width: 70%;
     border-right: 1px solid white;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.editor-actions{
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 10px;
+    padding-top: 5px;
+    align-items: center;
 }
 .input-output{
     display: flex;
@@ -14,18 +24,23 @@
 .input{
     height: 50%;
     border-bottom: 1px solid wheat;
+    padding: 5px;
+}
+.output{
+    padding: 5px;
+
 }
 .play   {
     width: 60px;
     box-sizing: border-box;
     border-radius: 10px;
-    height: 30px;
     background-color:white;
     border: 1px solid var(--primary-color);
     color: black;
-    position:absolute;
-    top:10px;
-    right:10px;
-    z-index:100;
     cursor: pointer;
+}
+select,option{
+    color: black;
+    padding: 5px;
+    outline: 0;
 }
