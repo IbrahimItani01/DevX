@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormInput from "./FormInput";
 import Button from "./base/Button";
 import { requestLogin } from "../apis/auth";
+import { useAuth } from "../context/AuthContext";
 const Login = () => {
   const navigate = useNavigate();
+  const {loggedin}=useAuth();
   const [empty, setEmpty] = useState(true);
   const [login, setLogin] = useState({
     email: "",
@@ -22,7 +24,9 @@ const Login = () => {
     }));
   };
   const handleLogin = () => {
-    // requestLogin(login)
+    requestLogin(login)
+    loggedin();
+    navigate("/panel")
     console.log(login);
   };
   return (
