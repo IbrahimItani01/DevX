@@ -1,12 +1,31 @@
-import React, { useContext } from 'react'
-import blackLogo from "../../assets/logoBlack.png"
-import FileAdd from '../FileAdd'
-import FileContainer from './FileContainer'
-import "../../styles/sidebar.css"
-import SignOut from './SignOut'
-import { filesContext } from '../../context/FilesContext'
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import blackLogo from "../../assets/logoBlack.png";
+import FileAdd from "../FileAdd";
+import FileContainer from "./FileContainer";
+import "../../styles/sidebar.css";
+import SignOut from "./SignOut";
+import { filesContext } from "../../context/FilesContext";
+
 const SideBar = () => {
-    const {filesData}=useContext(filesContext);
+    const { filesData, selectFile } = useContext(filesContext);
+const [activeFileId, setActiveFileId] = useState(null); // Track active file
+  const navigate = useNavigate();
+
+  const handleFileClick = (fileId) => {
+    if (activeFileId === fileId) {
+      // If file is already active, deselect and navigate to /panel
+      setActiveFileId(null);
+      selectFile(null);
+      navigate(`/panel`);
+    } else {
+      // Otherwise, set as active and navigate to /panel/{fileId}
+      setActiveFileId(fileId);
+      selectFile(fileId);
+      navigate(`/panel/${fileId}`);
+    }
+  };
+
   return (
     <div className='side-bar'>
       <div className='file-add'>
