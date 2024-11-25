@@ -15,3 +15,4 @@ Route::post('/register', [JwtController::class, 'register']);
 
 Route::post('/upload', [FileController::class, 'store']);
 Route::post('/test', [FileController::class, 'getCollaboratorCount']);
+Route::post('/test1', [FileController::class, 'addCollaborator']);

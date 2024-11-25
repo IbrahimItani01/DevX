@@ -33,6 +33,14 @@ class FileController extends Controller
         //     'path' => $path,
         // ], 201);
     }
+    public function addCollaborator(Request $request){
+        DB::table('collaborations')->insert([
+            'collaborater_id' => $request->collaborater_id,
+            'file_id' => $request->file_id,
+            'privilige'=> $request->privilege,
+        ]);
+    }
+
     public function getCollaboratorCount(Request $request){
 
        $collaboratorCount = DB::table('collaborations')
