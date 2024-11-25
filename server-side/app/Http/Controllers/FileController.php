@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class FileController extends Controller
 {
@@ -33,6 +35,42 @@ class FileController extends Controller
         //     'path' => $path,
         // ], 201);
     }
+    // public function getUser()
+    // {
+    //     try {
+    //       if (! $user = JWTAuth::parseToken()->authenticate()) {
+    //             return response()->json(['error' => 'User not found'], 404);
+    //         }
+
+    //         $payload = JWTAuth::getPayload();
+    //     } catch (JWTException $e) {
+    //         return response()->json(['error' => 'Invalid token'], 400);
+    //     }
+
+    //     return response()->json([
+    //         'user' => $user,
+    //         'token_payload' => $payload->toArray(),
+    //     ]);
+    // }
+
+    public function getFiles(Request $request){
+
+    $owner_files = DB::table('files')
+        ->where('owner_id', $request->user_id)
+        ->get();
+
+    $collaborater_files = DB::table('collaborations')
+        ->join('files', 'collaborations.file_id', '=', 'files.id')
+        ->where('collaborations.collaborater_id', $request->user_id)
+        ->select('files.*')
+        ->get();
+
+    return response()->json([
+        "owner_files" => $owner_files,
+        "collaborater_files" => $collaborater_files,
+    ]);
+    }
+
     public function addCollaborator(Request $request){
         DB::table('collaborations')->insert([
             'collaborater_id' => $request->collaborater_id,
