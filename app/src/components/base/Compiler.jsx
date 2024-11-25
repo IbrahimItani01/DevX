@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../../styles/compiler.css";
 import Editor from "@monaco-editor/react";
-import { Play } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 import LanguageSelector from "./LanguageSelector";
 import InputSection from "./InputSection";
 import Output from "./Output";
@@ -54,6 +54,7 @@ const Compiler = ({ file, saveContent }) => {
 
   // Code Execution
   const runCode = async () => {
+    toast.info("compiling your script :)");
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
 
