@@ -1,0 +1,19 @@
+.invite-page {
+  background-color: black;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.invite-title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+.invite-buttons{
+    display: flex;
+    gap: 10px;
+}
