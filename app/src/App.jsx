@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/AuthContext.js";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import InvitePage from "./components/InvitePage.jsx";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
             }
           />
           <Route
-            path="/login"
+            path="/login/:fileId?/:privilege?"
             element={
               <SignForm>
                 <Login />
@@ -44,6 +45,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/invite/:fileId/:privilege" element={<InvitePage />} />
+
         </Routes>
       </BrowserRouter>
       <ToastContainer
