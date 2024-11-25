@@ -8,36 +8,47 @@ use Illuminate\Support\Facades\DB;
 class UploadController extends Controller
 {
 
-    public function upload(Request $request)
-    {
-        $validated = $request->validate([
-            'file_name' => 'required|string',
-            'file_content' => 'required|string',
-            'file_language' => 'required|string',
-        ]);
+    public function upload(Request $request){
+    $validated = $request->validate([
+        'file_name' => 'required|string',
+        'file_content' => 'required|string',
+        'file_language' => 'required|string',
+    ]);
 
-        $fileName = $validated['file_name'];
-        $fileContent = $validated['file_content'];
-        $file_language = $validated['file_language'];
+    $fileName = $validated['file_name'];
+    $fileContent = $validated['file_content'];
+    $file_language = $validated['file_language'];
 
-        $filePath = 'uploads/' . $fileName;
+    $filePath = 'uploads/' . $fileName;
 
+    if (Storage::disk('public')->exists($filePath)) {
         Storage::disk('public')->put($filePath, $fileContent);
 
-        $savedFile = DB::table('files')->insert([
+        DB::table('files')
+            ->where('file_name', $fileName)
+            ->update([
+                'file_path' => $filePath,
+                'file_language' => $file_language,
+            ]);
+
+        $message = 'File updated successfully.';
+    } else {
+        Storage::disk('public')->put($filePath, $fileContent);
+
+        DB::table('files')->insert([
             'file_path' => $filePath,
             'file_name' => $fileName,
-            'file_language'=>$file_language,
+            'file_language' => $file_language,
             'owner_id' => 1,
-            // 'created_at' => now(),
-            // 'updated_at' => now(),
         ]);
 
-        return response()->json([
-            'message' => 'File uploaded successfully.',
-            'fileId' => $savedFile,
-            'filePath' => $filePath,
-        ], 201);
+        $message = 'File created successfully.';
+    }
+
+    return response()->json([
+        'message' => $message,
+        'filePath' => $filePath,
+    ], 200);
     }
 
     public function getFileContent(Request $request)
@@ -60,7 +71,5 @@ class UploadController extends Controller
         return response()->json(['error' => 'File not found'], 404);
     }
     }
-
-
 
 }
