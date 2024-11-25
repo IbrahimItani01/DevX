@@ -1,24 +1,23 @@
-import { Bug } from "lucide-react";
+import { Bug, BugPlay } from "lucide-react";
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const AI = ({ script,setScript }) => {
   const [clicked, setClicked] = useState(false);
-  const [action, setAction] = useState("");
+  const [loading,setLoading]=useState(false)
     const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
   const handleClick = () => setClicked(!clicked);
 
   const generateResponse = (e) => {
     const selectedAction = e.target.textContent;
-    setAction(selectedAction);
-
+    toast.info("Generating...")
     const systemMessage =
       selectedAction === "Analyze Code"
-        ? "You are a code analysis assistant. Provide insights and improvements.only return the code provided itself as a response and add the insights as comments beside each section to improve."
-        : "You are a code fixer assistant. Identify and fix any errors in the code. only return the code provided itself as a response and add the fixes as comments beside each section to improve.";
+        ? "reply according to the programming language based on syntax.You are a code analysis assistant you only give hint in a comment. Provide insights  in the form of comments inside script. return the whole script as it was with the extra comments. if you see no code return the initial comment"
+        : "reply according to programming language based on syntax.You are a code fixer assistant you only give hint in a comment. Identify any errors in the code. return the whole script as it was with the extra comments.if you see no code return the initial comment";
 
-    const userMessage = `Here is the code:\n${script}`;
+    const userMessage = `\n${script}`;
     axios
       .post(
         "https://api.openai.com/v1/chat/completions",
@@ -37,9 +36,9 @@ const AI = ({ script,setScript }) => {
         }
       )
       .then((res) => {
-        console.log(res)
+        setScript(res.data.choices[0].message.content)
         toast.success("Done Sir!")
-        // TODO: set script to the response of ai
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
@@ -51,7 +50,7 @@ const AI = ({ script,setScript }) => {
   return (
     <>
       <div className="ai-button" onClick={handleClick}>
-        <Bug color="black" />
+        {!loading? <BugPlay color="black" /> : <Bug color="black" /> }
       </div>
       {clicked && (
         <div className="ai-bubble">
