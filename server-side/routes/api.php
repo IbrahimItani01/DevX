@@ -27,4 +27,5 @@ Route::post('/create-collab', [FileController::class, 'addCollaborator']);
 Route::get('/get-files', [FileController::class, 'getFiles']);
 
 Route::post('/upload', [UploadController::class, 'upload']);
+Route::post('/getFileContent', [UploadController::class, 'getFileContent']);
 

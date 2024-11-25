@@ -11,13 +11,13 @@ class UploadController extends Controller
     public function upload(Request $request)
     {
         $validated = $request->validate([
-            'fileName' => 'required|string',
-            'fileContent' => 'required|string',
+            'file_name' => 'required|string',
+            'file_content' => 'required|string',
             'file_language' => 'required|string',
         ]);
 
-        $fileName = $validated['fileName'];
-        $fileContent = $validated['fileContent'];
+        $fileName = $validated['file_name'];
+        $fileContent = $validated['file_content'];
         $file_language = $validated['file_language'];
 
         $filePath = 'uploads/' . $fileName;
@@ -39,5 +39,28 @@ class UploadController extends Controller
             'filePath' => $filePath,
         ], 201);
     }
+
+    public function getFileContent(Request $request)
+    {
+    $validated = $request->validate([
+    'file_name' => 'required|string',
+    ]);
+
+    $file_name = $validated['file_name'];
+
+    $file_path = 'uploads/' . $file_name;
+
+    if (Storage::disk('public')->exists($file_path)) {
+        $content = Storage::disk('public')->get($file_path);
+
+        return response()->json([
+            'content' => $content,
+        ]);
+    } else {
+        return response()->json(['error' => 'File not found'], 404);
+    }
+    }
+
+
 
 }
