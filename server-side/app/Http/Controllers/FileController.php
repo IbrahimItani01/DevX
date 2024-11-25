@@ -42,26 +42,38 @@ class FileController extends Controller
     //             return response()->json(['error' => 'User not found'], 404);
     //         }
 
-    //         $payload = JWTAuth::getPayload();
     //     } catch (JWTException $e) {
     //         return response()->json(['error' => 'Invalid token'], 400);
     //     }
 
     //     return response()->json([
     //         'user' => $user,
-    //         'token_payload' => $payload->toArray(),
     //     ]);
     // }
+    public function getAuthenticatedUserId(){
+    try {
+        $user = JWTAuth::parseToken()->authenticate();
+        return $user->id; // Return the user ID
+    } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+        return null; // Handle token errors gracefully
+    }
+    }
 
-    public function getFiles(Request $request){
+
+    public function getFiles(){
+
+    $user_id = $this->getAuthenticatedUserId(); // Retrieve user ID from token
+    if (!$user_id) {
+        return response()->json(['error' => 'Invalid or missing token'], 401);
+    }
 
     $owner_files = DB::table('files')
-        ->where('owner_id', $request->user_id)
+        ->where('owner_id', $user_id)
         ->get();
 
     $collaborater_files = DB::table('collaborations')
         ->join('files', 'collaborations.file_id', '=', 'files.id')
-        ->where('collaborations.collaborater_id', $request->user_id)
+        ->where('collaborations.collaborater_id', $user_id)
         ->select('files.*')
         ->get();
 
