@@ -39,6 +39,7 @@ const AI = ({ script,setScript }) => {
       .then((res) => {
         console.log(res)
         toast.success("Done Sir!")
+        // TODO: set script to the response of ai
       })
       .catch((err) => {
         console.error(err);
