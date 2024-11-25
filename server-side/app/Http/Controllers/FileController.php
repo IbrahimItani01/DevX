@@ -6,63 +6,37 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    public function store(Request $request)
-    {
-        // // Validate the request
-        // $request->validate([
-        //     'file' => 'required|file',
-        // ]);
 
-        // // Store the file
-        // // $file = $request->file('file');
-        // // $path = $file->store('uploads', 'public'); // Store in 'storage/app/public/uploads'
+//     public function createFile()
+//     {
+//         Storage::disk('local')->put('./example.txt', 'This is the file content.');
 
-        // // // Get the original file name
-        // // $filename = $file->getClientOriginalName();
 
-        // // Save the filename in the database
-        // $fileRecord = File::create([
-        //     'file_name' => $filename,
-        // ]);
+// $content = Storage::disk('local')->get('./example.txt');
+// echo $content; // Outputs: This is the file content.
 
-        // // Return the response
-        // return response()->json([
-        //     'message' => 'File uploaded successfully',
-        //     'file' => $fileRecord,
-        //     'path' => $path,
-        // ], 201);
-    }
-    // public function getUser()
-    // {
-    //     try {
-    //       if (! $user = JWTAuth::parseToken()->authenticate()) {
-    //             return response()->json(['error' => 'User not found'], 404);
-    //         }
+//         return response()->json(['message' => 'File created successfully!']);
+//     }
 
-    //     } catch (JWTException $e) {
-    //         return response()->json(['error' => 'Invalid token'], 400);
-    //     }
-
-    //     return response()->json([
-    //         'user' => $user,
-    //     ]);
-    // }
     public function getAuthenticatedUserId(){
     try {
         $user = JWTAuth::parseToken()->authenticate();
-        return $user->id; // Return the user ID
+        return $user;
+
     } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-        return null; // Handle token errors gracefully
+        return null;
     }
     }
 
 
     public function getFiles(){
 
-    $user_id = $this->getAuthenticatedUserId(); // Retrieve user ID from token
+    $user_id = $this->getAuthenticatedUserId();
+
     if (!$user_id) {
         return response()->json(['error' => 'Invalid or missing token'], 401);
     }
@@ -71,23 +45,23 @@ class FileController extends Controller
         ->where('owner_id', $user_id)
         ->get();
 
-    $collaborater_files = DB::table('collaborations')
+    $collaborator_files = DB::table('collaborations')
         ->join('files', 'collaborations.file_id', '=', 'files.id')
-        ->where('collaborations.collaborater_id', $user_id)
+        ->where('collaborations.collaborator_id', $user_id)
         ->select('files.*')
         ->get();
 
     return response()->json([
         "owner_files" => $owner_files,
-        "collaborater_files" => $collaborater_files,
+        "collaborator_files" => $collaborator_files,
     ]);
     }
 
     public function addCollaborator(Request $request){
         DB::table('collaborations')->insert([
-            'collaborater_id' => $request->collaborater_id,
+            'collaborator_id' => $request->collaborator_id,
             'file_id' => $request->file_id,
-            'privilige'=> $request->privilege,
+            'privilege'=> $request->privilege,
         ]);
     }
 
@@ -101,6 +75,5 @@ class FileController extends Controller
         'file_id' => $request->file_id,
         'collaborator_count' => $collaboratorCount,
     ]);
-}
-
+    }
 }

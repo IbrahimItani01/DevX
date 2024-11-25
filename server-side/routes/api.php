@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\JwtMiddleware;
-
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\UploadController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -18,13 +19,12 @@ Route::middleware(['jwt'])->group(function () {
 });
 
 
-use App\Http\Controllers\FileController;
 
 Route::post('/send-invite', [EmailController::class, 'sendEmail']);
 
+Route::post('/get-count', [FileController::class, 'getCollaboratorCount']); // this can expect the file id in the param if needed
+Route::post('/create-collab', [FileController::class, 'addCollaborator']);
+Route::get('/get-files', [FileController::class, 'getFiles']);
 
-Route::post('/upload', [FileController::class, 'store']);
-Route::post('/test', [FileController::class, 'getCollaboratorCount']);
-Route::post('/test1', [FileController::class, 'addCollaborator']);
-Route::post('/test2', [FileController::class, 'getFiles']);
-Route::post('/test3', [FileController::class, 'getUser']);
+Route::post('/upload', [UploadController::class, 'upload']);
+
