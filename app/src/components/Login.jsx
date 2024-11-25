@@ -1,11 +1,12 @@
 import React, {useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FormInput from "./FormInput";
 import Button from "./base/Button";
 import { requestLogin } from "../apis/auth";
 import { useAuth } from "../context/AuthContext";
 const Login = () => {
   const navigate = useNavigate();
+  const {fileId,privilege}=useParams();
   const {loggedin}=useAuth();
   const [empty, setEmpty] = useState(true);
   const [login, setLogin] = useState({
@@ -26,7 +27,13 @@ const Login = () => {
   const handleLogin = () => {
     requestLogin(login)
     loggedin();
-    navigate("/panel")
+    localStorage.setItem("token","hello")
+    if(fileId&&privilege){
+      navigate(`/invite/${fileId}/${privilege}`)
+    }
+    else{
+      navigate("/panel")
+    }
     console.log(login);
   };
   return (
