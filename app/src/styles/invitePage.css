@@ -17,3 +17,8 @@
     display: flex;
     gap: 10px;
 }
+.invite-buttons>:nth-child(1){
+    background-color: transparent;
+    color: white;
+    border: 1px solid var(--primary-color);
+}

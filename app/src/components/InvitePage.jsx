@@ -34,8 +34,8 @@ const InvitePage = () => {
             You are invited to file {fileId} as: {privilege}
           </p>
           <div className="invite-buttons">
-            <Button text={"Accept Invite"} onClick={handleAcceptInvite} />
             <Button text={"Decline Invite"} onClick={handleDecline} />
+            <Button text={"Accept Invite"} onClick={handleAcceptInvite} />
           </div>
         </>
       )}
