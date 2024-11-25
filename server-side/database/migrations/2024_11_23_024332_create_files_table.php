@@ -16,6 +16,7 @@ return new class extends Migration
             $table->longText('file_path');
             $table->integer('owner_id');
             $table->string('file_name', 45);
+            $table->string('file_language', 45);
             $table->longText('file_content')->nullable();
         });
     }

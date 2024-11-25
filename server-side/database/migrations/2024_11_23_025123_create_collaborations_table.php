@@ -12,14 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('collaborations', function (Blueprint $table) {
-            // $table->unsignedBigInteger('collaborater_id');
-            // $table->unsignedBigInteger('file_id');
             $table->id();
-            $table->enum('privilige', ['editor', 'viewer']);
-            // $table->primary(['collaborater_id', 'file_id']);
-            // $table->foreignId('collaborater_id')->references('id')->on('users')->onUpdate('cascade');
-            // $table->foreign('file_id')->references('file_id')->on('files')->onUpdate('cascade');
-            $table->foreignId('collaborater_id')->constrained('users');
+            $table->enum('privilege', ['editor', 'viewer']);
+            $table->foreignId('collaborator_id')->constrained('users');
             $table->foreignId('file_id')->constrained('files');
 
         });
