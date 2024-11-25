@@ -9,6 +9,7 @@ import { executeCode } from "../../apis/compile";
 import useWindowResize from "../../hooks/useWindowsResize";
 import { snippets, defaultOutput, defaultLanguage } from "../../constants";
 import { toast } from "react-toastify";
+import AI from "../AI";
 
 const Compiler = ({ file, saveContent }) => {
   const editorRef = useRef(null);
@@ -86,6 +87,7 @@ const Compiler = ({ file, saveContent }) => {
             fontSize: "20px",
           }}
         />
+        <AI script={script} setScript={setScript}/>
       </div>
       <div className="input-output">
         <InputSection userInput={userInput} setUserInput={setUserInput} />
