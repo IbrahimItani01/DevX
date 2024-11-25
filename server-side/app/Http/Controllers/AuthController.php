@@ -33,15 +33,21 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // Login API
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ]);
+
         $credentials = $request->only('email', 'password');
 
+        // Attempt to authenticate the user
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
 
+        // Return the token along with a success message
         return response()->json([
             'message' => 'Login successful!',
             'token' => $token,
