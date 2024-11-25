@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })->create();
     
+    $app->configure('auth');
+
     $app->routeMiddleware([
         'jwt' => \App\Http\Middleware\JwtMiddleware::class,
     ]);
