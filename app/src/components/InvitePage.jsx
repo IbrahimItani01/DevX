@@ -13,7 +13,7 @@ const InvitePage = () => {
     const token = localStorage.token;
     if (token) {
       axios.post("http://localhost:8000/api/create-collab",{
-        file_id:fileId,
+        file_id:parseInt(fileId),
         privilege
       },{
         headers:{
@@ -26,6 +26,7 @@ const InvitePage = () => {
           navigate("/login");
         },1500)
       }).catch((e)=>{
+        console.log(e)
         toast.error("Something went wrong :(");
       })
       setDecide(true);
