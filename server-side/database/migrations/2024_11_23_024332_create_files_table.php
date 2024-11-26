@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->longText('file_path');
+            $table->longText('file_path')->nullable();
             $table->integer('owner_id');
             $table->string('file_name', 45);
             $table->string('file_language', 45);
