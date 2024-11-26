@@ -16,11 +16,20 @@ class UserController extends Controller
         return response()->json(['error' => 'Invalid or missing token'], 401);
     }
 
-    $user = DB::table('users')
-                ->select('name', 'email')
-                ->where('id', '=', $user->id)
-                ->get();
-    return response()->json(['user' => $user], 200);
-    }
+    $query = DB::table('users')
+    ->select('name', 'email')
+    ->where('id', '=', $user->id)
+    ->first();
+
+    if ($query) {
+        return response()->json([
+            'name' => $query->name,
+            'email' => $query->email,
+        ], 200);
+    } else {
+        return response()->json([
+            'error' => 'User not found',
+        ], 404);
+    }}
 
 }
