@@ -33,12 +33,12 @@ const InviteField = () => {
     <div className="invite-section">
       <RoleIcon
         role="edit"
-        isActive={activeRole === "edit"}
+        isActive={activeRole === "editor"}
         onClick={() => handleRoleToggle("edit")}
       />
       <RoleIcon
         role="view"
-        isActive={activeRole === "view"}
+        isActive={activeRole === "viewer"}
         onClick={() => handleRoleToggle("view")}
       />
       <Input
