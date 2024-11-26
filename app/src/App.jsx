@@ -18,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/"
+            path="/:fileId?/:privilege?"
             element={
               <SignForm>
                 <Register />
