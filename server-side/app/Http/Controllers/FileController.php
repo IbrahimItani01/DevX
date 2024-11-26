@@ -46,14 +46,19 @@ class FileController extends Controller
 
     public function addCollaborator(Request $request)
     {
+        $user_id = $this->getAuthenticatedUserId()->id;
+        if (!$user_id) {
+            return response()->json(['error' => 'Invalid or missing token'], 401);
+        }
+
         $validatedData = $request->validate([
-            'collaborator_id' => 'required|integer',
+            //  'collaborator_id' => 'required|integer',
             'file_id' => 'required|integer',
             'privilege' => 'required|string',
         ]);
 
         DB::table('collaborations')->insert([
-            'collaborator_id' => $validatedData['collaborator_id'],
+            'collaborator_id' => $user_id,
             'file_id' => $validatedData['file_id'],
             'privilege' => $validatedData['privilege'],
         ]);
