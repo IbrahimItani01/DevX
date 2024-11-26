@@ -6,22 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-
-//     public function createFile()
-//     {
-//         Storage::disk('local')->put('./example.txt', 'This is the file content.');
-
-
-// $content = Storage::disk('local')->get('./example.txt');
-// echo $content; // Outputs: This is the file content.
-
-//         return response()->json(['message' => 'File created successfully!']);
-//     }
-
     public function getAuthenticatedUserId(){
     try {
         $user = JWTAuth::parseToken()->authenticate();
@@ -57,23 +44,38 @@ class FileController extends Controller
     ]);
     }
 
-    public function addCollaborator(Request $request){
+    public function addCollaborator(Request $request)
+    {
+        // Validate the request
+        $validatedData = $request->validate([
+            'collaborator_id' => 'required|integer',
+            'file_id' => 'required|integer',
+            'privilege' => 'required|string',
+        ]);
+
         DB::table('collaborations')->insert([
-            'collaborator_id' => $request->collaborator_id,
-            'file_id' => $request->file_id,
-            'privilege'=> $request->privilege,
+            'collaborator_id' => $validatedData['collaborator_id'],
+            'file_id' => $validatedData['file_id'],
+            'privilege' => $validatedData['privilege'],
+        ]);
+
+        return response()->json(['message' => 'Collaborator added successfully.'], 201);
+    }
+
+    public function getCollaboratorCount(Request $request)
+    {
+        $validatedData = $request->validate([
+            'file_id' => 'required|integer',
+        ]);
+
+        $collaboratorCount = DB::table('collaborations')
+            ->where('file_id', $validatedData['file_id'])
+            ->count();
+
+        return response()->json([
+            'file_id' => $validatedData['file_id'],
+            'collaborator_count' => $collaboratorCount,
         ]);
     }
 
-    public function getCollaboratorCount(Request $request){
-
-       $collaboratorCount = DB::table('collaborations')
-        ->where('file_id', $request->file_id)
-        ->count();
-
-    return response()->json([
-        'file_id' => $request->file_id,
-        'collaborator_count' => $collaboratorCount,
-    ]);
-    }
 }
