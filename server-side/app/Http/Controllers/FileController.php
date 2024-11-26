@@ -56,14 +56,17 @@ class FileController extends Controller
             'file_id' => 'required|integer',
             'privilege' => 'required|string',
         ]);
-
-        DB::table('collaborations')->insert([
-            'collaborator_id' => $user_id,
-            'file_id' => $validatedData['file_id'],
-            'privilege' => $validatedData['privilege'],
-        ]);
-
-        return response()->json(['message' => 'Collaborator added successfully.'], 201);
+        try{
+            DB::table('collaborations')->insert([
+                'collaborator_id' => $user_id,
+                'file_id' => $validatedData['file_id'],
+                'privilege' => $validatedData['privilege'],
+            ]);
+    
+            return response()->json(['message' => 'Collaborator added successfully.'], 201);
+        }catch(\Exception $e){
+            return response()->json(['message' => 'Error adding to DB'], 400);
+        }
     }
 
     public function getCollaboratorCount(Request $request)
