@@ -24,7 +24,6 @@ const FileAdd = () => {
             }
           }).then((response)=>{
             toast.success(response.data.message);
-            console.log(filesData)
             setFilesData((prev)=>[
               ...prev,
               {

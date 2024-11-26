@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../styles/compiler.css";
 import Editor from "@monaco-editor/react";
-import { Play } from "lucide-react";
+import { Play, ScrollIcon } from "lucide-react";
 import LanguageSelector from "./LanguageSelector";
 import InputSection from "./InputSection";
 import Output from "./Output";
@@ -18,7 +18,10 @@ const Compiler = ({ saveContent }) => {
   const { id } = useParams();
   const { filesData } = useContext(filesContext);
 
+  // Initialize fileData with defaults
   const [fileData, setFileData] = useState({
+    name: "",
+    language: "javascript", // Default language
   });
   const editorRef = useRef(null);
 
@@ -27,54 +30,58 @@ const Compiler = ({ saveContent }) => {
   const [script, setScript] = useState(null);
 
   const [userInput, setUserInput] = useState("");
+
+  // Update fileData when filesData or id changes
   useEffect(() => {
-    console.log("Fetching file content for id:", id);
+    if (filesData && id) {
+      const selectedFile = filesData.find((file) => file.id == id);
+      if (selectedFile) {
+        setFileData({
+          name: selectedFile.file_name,
+          language: selectedFile.file_language,
+        });
+      }
+    }
+  }, [filesData, id]);
+
+  // Fetch file content when component loads or id changes
+  useEffect(() => {
     axios
       .post("http://localhost:8000/api/getFileContent", { file_id: id })
       .then((res) => {
         setScript(res.data.content);
-  
-        if (filesData && filesData.length > 0) {
-          for (const file of filesData) {
-            if (file.id == id) {
-              console.log("File found:", file);
-              setFileData({
-                name: file.file_name,
-                language: file.file_language,
-              });
-            }
-          }
-        } else {
-          console.warn("filesData is empty or not ready.");
-        }
+      })
+      .catch((error) => {
+        console.error("Failed to fetch file content:", error);
+        toast.error("Could not load file content.");
       });
-  }, [filesData, id]); // Dependency array ensures updates when filesData or id changes
-  
+  }, [id]);
 
   // Handle Save Shortcut
   const handleSaveShortcut = (e) => {
     if (e.ctrlKey && e.key === "s") {
       e.preventDefault();
-      // const sourceCode = editorRef.current.getValue();
-      // console.log(sourceCode)
-      saveContent(id, script, fileData.file_name, fileData.file_language);
-      setScript(script);
+      const sourceCode = editorRef.current.getValue();
+      saveContent(id, sourceCode, fileData.name, fileData.language);
+      setScript(sourceCode);
       toast.success("File saved successfully!");
     }
   };
 
+  // Add and clean up save shortcut listener
   useEffect(() => {
     document.addEventListener("keydown", handleSaveShortcut);
     return () => {
       document.removeEventListener("keydown", handleSaveShortcut);
     };
-  }, []);
+  }, [id, fileData, saveContent]);
 
-  // useEffect(() => {
-  //   if (editorRef.current) {
-  //     editorRef.current.setValue(codeData || snippets[language]);
-  //   }
-  // }, [fileData.language]);
+  // Update editor content when script or fileData.language changes
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.setValue(script || snippets[fileData.language] || "");
+    }
+  }, [fileData.language]);
 
   // Resize Handler for Editor
   useWindowResize(() => {
@@ -85,7 +92,7 @@ const Compiler = ({ saveContent }) => {
 
   // Code Execution
   const runCode = async () => {
-    toast.info("compiling your script :)");
+    toast.info("Compiling your script :)");
     if (!script) return;
 
     try {
@@ -96,7 +103,8 @@ const Compiler = ({ saveContent }) => {
       );
       setOutput(result.output);
     } catch (error) {
-      toast.error(error);
+      console.error("Error executing code:", error);
+      toast.error("Failed to execute code.");
     }
   };
 
@@ -105,7 +113,7 @@ const Compiler = ({ saveContent }) => {
       <div className="editor">
         <div className="editor-actions">
           <LanguageSelector
-            language={fileData.file_language}
+            language={fileData.language}
             setFileData={setFileData}
           />
           <Play onClick={runCode} color="black" className="play" />
@@ -113,7 +121,7 @@ const Compiler = ({ saveContent }) => {
         <Editor
           height="100%"
           theme="vs-dark"
-          language={fileData.file_language}
+          language={fileData.language}
           value={script}
           onMount={(editor) => (editorRef.current = editor)}
           onChange={(value) => setScript(value)}

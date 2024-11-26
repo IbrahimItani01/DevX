@@ -49,6 +49,7 @@ select,option{
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    overflow-y: scroll;
     gap: 5px;
 }
 .output-section>p,.input>p{
