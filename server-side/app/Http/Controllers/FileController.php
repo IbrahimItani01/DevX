@@ -22,7 +22,7 @@ class FileController extends Controller
 
     public function getFiles(){
 
-    $user_id = $this->getAuthenticatedUserId();
+    $user_id = $this->getAuthenticatedUserId()->id;
 
     if (!$user_id) {
         return response()->json(['error' => 'Invalid or missing token'], 401);
@@ -35,7 +35,7 @@ class FileController extends Controller
     $collaborator_files = DB::table('collaborations')
         ->join('files', 'collaborations.file_id', '=', 'files.id')
         ->where('collaborations.collaborator_id', $user_id)
-        ->select('files.*')
+        ->select('files.*','collaborations.privilege')
         ->get();
 
     return response()->json([
@@ -46,7 +46,6 @@ class FileController extends Controller
 
     public function addCollaborator(Request $request)
     {
-        // Validate the request
         $validatedData = $request->validate([
             'collaborator_id' => 'required|integer',
             'file_id' => 'required|integer',
