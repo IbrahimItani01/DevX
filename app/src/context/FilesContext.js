@@ -17,7 +17,6 @@ const FilesProvider = ({ children }) => {
       .then((response) => {
         const fullData = response.data.owner_files.concat(response.data.collaborator_files);
         setFilesData(fullData)
-        console.log(response.data)
       }).catch((e)=>toast.error(e.response.data))
   }, []);
   const [selectedFileId, setSelectedFileId] = useState(null);
@@ -33,7 +32,7 @@ const FilesProvider = ({ children }) => {
       )
     );
     axios.post("http://localhost:8000/api/upload",{
-      file_id:fileId,
+      file_id:parseInt(fileId),
       file_name: name,
       file_content: newContent,
       file_language: language
