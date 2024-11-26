@@ -55,9 +55,13 @@ const FilesProvider = ({ children }) => {
 
   return (
     <filesContext.Provider
-      value={{ filesData,
+      value={{
+        filesData,
         selectedFileId,
-        selectFile, saveContent }}
+        selectFile,
+        saveContent,
+        setFilesData,
+      }}
     >
       {children}
     </filesContext.Provider>
