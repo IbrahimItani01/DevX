@@ -13,11 +13,16 @@ const MainPanel = () => {
     <div className="main-panel">
       <SideBar />
       <div className="body-panel">
-        <Header />
         <Routes>
           <Route
             path={"/:id"}
-            element={<Compiler saveContent={saveContent} />}
+            element={
+              <>
+                <Header />
+
+                <Compiler saveContent={saveContent} />
+              </>
+            }
           />
         </Routes>
       </div>

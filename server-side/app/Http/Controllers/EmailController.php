@@ -11,19 +11,23 @@ class EmailController extends Controller
     {
         // Validate the request
         $request->validate([
-            'to' => 'required|email',
-            'subject' => 'required|string',
-            'message' => 'required|string',
+            'email' => 'required|email',
+            'file_id' => 'required|integer',
+            'role' => 'required|string',
+            'user_email'=>'required|string'
         ]);
 
         // Extract details from the request
-        $to = $request->input('to');
-        $subject = $request->input('subject');
-        $messageBody = $request->input('message');
+        $receiverEmail = $request->input('email');
+        $senderEmail = $request->input('user_email');
+        $role = $request->input('role');
+        $fileId = $request->input(key: 'file_id');
+        $subject = "You are Invited to collaborate on a DevX File!";
+        $messageBody = "Hello owner of this email!\nYou have been invited by a DevX'er of email : $senderEmail \nTo collaborate on his/her file.\nClick on the link below to visit the invite page:\n'http://localhost:3000/invite/$fileId/$role'";
 
         // Send the email
-        Mail::raw($messageBody, function ($message) use ($to, $subject) {
-            $message->to($to)
+        Mail::raw($messageBody, function ($message) use ($receiverEmail,$subject) {
+            $message->to($receiverEmail)
                     ->subject($subject);
         });
 

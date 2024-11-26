@@ -3,10 +3,10 @@ import { userContext } from '../../context/UserContext'
 import InviteField from './InviteField';
 
 const Header = () => {
-  const userData = useContext(userContext);
+  const {name} = useContext(userContext);
   return (
     <div className='header-section'>
-      <h1>🔥 Welcome Back, {userData.name}!</h1>
+      <h1>🔥 Welcome Back, {name}!</h1>
       <div className='invite-section'>
         <InviteField/>
       </div>
