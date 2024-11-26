@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import FormInput from "./FormInput";
 import { useNavigate } from "react-router-dom";
 import Button from "./base/Button";
-import { requestRegister } from "../apis/auth";
+// import { requestRegister } from "../apis/auth";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
   const handleNav = () => {
     navigate("/login");
   };
+  const {loggedin}=useAuth();
+
   const [empty, setEmpty] = useState(true);
   const [register, setRegister] = useState({
     email: "",
@@ -26,7 +31,33 @@ const Register = () => {
   };
   const handleRegister = () => {
     // requestRegister(register)
-    console.log(register)
+    if (register) {
+      if (register.password === register.confirm) {
+        axios
+          .post(
+            "http://localhost:8000/api/register",
+            {
+              name: register.name,
+              email: register.email,
+              password: register.password,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((response) => {
+            localStorage.setItem("token", response.data.token);
+            navigate("/panel");
+            loggedin();
+            toast.success(response.data.message);
+          })
+          .catch((e) => toast.error(e.response.data.message));
+      } else {
+        toast.info("Passwords must match!");
+      }
+    }
   };
   return (
     <>
@@ -56,7 +87,7 @@ const Register = () => {
           label="Password"
           type="password"
           name="password"
-          placeholder="Enter your password"
+          placeholder="Min: 8 characters!"
         />
         <FormInput
           onChange={handleChange}

@@ -20,9 +20,11 @@ const SideBar = () => {
       navigate(`/panel`);
     } else {
       // Otherwise, set as active and navigate to /panel/{fileId}
+  
       setActiveFileId(fileId);
       selectFile(fileId);
       navigate(`/panel/${fileId}`);
+
     }
   };
 
@@ -36,8 +38,11 @@ const SideBar = () => {
       <div className="files-list">
         {filesData.map((file) => (
           <FileContainer
-            name={file.fileName}
+            name={file.file_name}
             key={file.id}
+            id={file.id}
+            privilege={file.privilege}
+            language={file.file_language}
             active={file.id === activeFileId} // Check if this file is active
             onClick={() => handleFileClick(file.id)}
           />

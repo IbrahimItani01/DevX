@@ -2,8 +2,10 @@ import React, {useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import FormInput from "./FormInput";
 import Button from "./base/Button";
-import { requestLogin } from "../apis/auth";
+// import { requestLogin } from "../apis/auth";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 const Login = () => {
   const navigate = useNavigate();
   const {fileId,privilege}=useParams();
@@ -25,16 +27,33 @@ const Login = () => {
     }));
   };
   const handleLogin = () => {
-    requestLogin(login)
-    loggedin();
-    localStorage.setItem("token","hello")
-    if(fileId&&privilege){
-      navigate(`/invite/${fileId}/${privilege}`)
-    }
-    else{
-      navigate("/panel")
-    }
-    console.log(login);
+    axios
+    .post(
+      "http://localhost:8000/api/login",
+      {
+        email: login.email,
+        password: login.password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      toast.success(response.data.message);
+        localStorage.setItem("token", response.data.token);
+        navigate("/panel");
+        if(fileId&&privilege){
+          navigate(`/invite/${fileId}/${privilege}`)
+        }
+        else{
+          navigate("/panel")
+        }
+        loggedin();
+    })
+    .catch((e) => toast.error(e.data.message));
+  
   };
   return (
     <>

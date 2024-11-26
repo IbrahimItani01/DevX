@@ -22,17 +22,32 @@ class UploadController extends Controller
 
             // Validate the incoming request data
             $validated = $request->validate([
+                'file_id'=>"|integer",
                 'file_name' => 'required|string',
                 'file_content' => 'required|string',
                 'file_language' => 'required|string',
             ]);
 
             // Extract the validated data
+            $fileId = $validated['file_id']??null;
             $fileName = $validated['file_name'];
             $fileContent = $validated['file_content'];
             $file_language = $validated['file_language'];
+            $langMap = [
+                "javascript"=>".js",
+                "php"=>".php",
+                "python"=>".py",
+            ];
 
-            $filePath = 'uploads/' . $fileName;
+            if(!$fileId){
+                $fileId = DB::table('files')->insertGetId([
+                    'file_name' => $fileName,
+                    'file_language' => $file_language,
+                    'owner_id' => $user->id, // Use the user ID here
+                ]);
+
+            }
+            $filePath = 'uploads/' . $fileId."-".$fileName.$langMap[$file_language];
 
             // Check if the file exists in the storage
             if (Storage::disk('public')->exists($filePath)) {
@@ -41,7 +56,7 @@ class UploadController extends Controller
 
                 // Update the file record in the database
                 DB::table('files')
-                    ->where('file_name', $fileName)
+                    ->where('id', $fileId)
                     ->update([
                         'file_path' => $filePath,
                         'file_language' => $file_language,
@@ -53,11 +68,10 @@ class UploadController extends Controller
                 Storage::disk('public')->put($filePath, $fileContent);
 
                 // Insert the new file record into the database
-                DB::table('files')->insert([
+                DB::table('files')
+                ->where('id', $fileId)
+                ->update([
                     'file_path' => $filePath,
-                    'file_name' => $fileName,
-                    'file_language' => $file_language,
-                    'owner_id' => $user->id,  // Use the user ID here
                 ]);
 
                 $message = 'File created successfully.';
@@ -66,6 +80,8 @@ class UploadController extends Controller
             return response()->json([
                 'message' => $message,
                 'filePath' => $filePath,
+                "fileId"=>$fileId,
+                "language"=>$file_language,
             ], 200);
 
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
@@ -76,21 +92,21 @@ class UploadController extends Controller
     public function getFileContent(Request $request)
     {
     $validated = $request->validate([
-    'file_name' => 'required|string',
+        'file_id'=>'required|integer',
     ]);
 
-    $file_name = $validated['file_name'];
+    $file_id = $validated['file_id'];
 
-    $file_path = 'uploads/' . $file_name;
+    $file_path = DB::table('files')->select('file_path')->where('id','=', $file_id)->get()[0]->file_path;
 
     if (Storage::disk('public')->exists($file_path)) {
         $content = Storage::disk('public')->get($file_path);
 
         return response()->json([
             'content' => $content,
-        ]);
+        ],200);
     } else {
-        return response()->json(['error' => 'File not found'], 404);
+        return response()->json(['error' => 'File not found',"fileId"=>$file_path], 404);
     }
     }
 

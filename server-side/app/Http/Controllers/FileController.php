@@ -29,15 +29,15 @@ class FileController extends Controller
     }
 
     $owner_files = DB::table('files')
-        ->where('owner_id', $user_id)
-        ->get();
+    ->where('owner_id', '=', $user_id)
+    ->select(DB::raw('files.*, "owner" as privilege')) // Add privilege column with value "owner"
+    ->get();
 
     $collaborator_files = DB::table('collaborations')
         ->join('files', 'collaborations.file_id', '=', 'files.id')
         ->where('collaborations.collaborator_id', $user_id)
         ->select('files.*','collaborations.privilege')
         ->get();
-
     return response()->json([
         "owner_files" => $owner_files,
         "collaborator_files" => $collaborator_files,
