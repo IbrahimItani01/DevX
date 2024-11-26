@@ -1,0 +1,108 @@
+.compiler-section{    
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+.editor{
+    width: 70%;
+    border-right: 1px solid white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.editor-actions{
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 10px;
+    padding-top: 5px;
+    align-items: center;
+}
+.input-output{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+.input{
+    height: 50%;
+    border-bottom: 1px solid wheat;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.play   {
+    width: 60px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color:white;
+    border: 1px solid var(--primary-color);
+    color: black;
+    cursor: pointer;
+}
+select,option{
+    color: black;
+    padding: 5px;
+    outline: 0;
+}
+.output-section{
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    gap: 5px;
+}
+.output-section>p,.input>p{
+    padding: 5px;
+    font-size: 20px;
+    border-bottom: 1px solid;
+}
+.output-section>div{
+    padding: 5px;
+}
+pre{
+    font-size: 20px;
+    padding: 5px;
+    text-wrap: wrap;
+}
+textarea{
+    color: black;
+    height: 100%;
+    resize: none;
+    outline: 0;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.ai-button{
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    background-color: var(--primary-color);
+    padding: 10px;
+    display: flex;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.ai-bubble{
+    position: absolute;
+    bottom:55px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    gap: 10px;
+    padding: 5px;
+    border: 1px solid var(--primary-color);
+}
+.ai-bubble>p{
+    color: black;
+    cursor: pointer;
+    padding: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease-out;
+}
+.ai-bubble>p:hover{
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
