@@ -3,13 +3,18 @@ import { languageVersions } from "../../constants";
 
 const languages = Object.entries(languageVersions);
 
-const LanguageSelector = ({ language, onSelect }) => {
+const LanguageSelector = ({ language, setFileData }) => {
   return (
     <div>
       <select
         name="LANGUAGE"
         value={language} 
-        onChange={(e) => onSelect(e.target.value)} 
+        onChange={(e) => 
+          setFileData((prev) => ({
+            ...prev, 
+            language: e.target.value,
+          }))
+        }
       >
         {languages.map(([lang, version]) => (
           <option key={lang} value={lang}>
