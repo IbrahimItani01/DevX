@@ -37,7 +37,6 @@ const Register = () => {
     }));
   };
   const handleRegister = () => {
-    // requestRegister(register)
     if (register) {
       if (register.password === register.confirm) {
         axios
@@ -69,6 +68,8 @@ const Register = () => {
       } else {
         toast.info("Passwords must match!");
       }
+    }else{
+      toast.info("You can't send empty forms 😜")
     }
   };
   return (
