@@ -7,7 +7,7 @@ const RoleIcon = ({ role, isActive, onClick }) => {
       className={`role-button ${isActive ? "active" : ""}`}
       onClick={onClick}
     >
-      {role === "edit" ? (
+      {role === "editor" ? (
         <Pencil className={isActive ? "active" : ""} />
       ) : (
         <Eye className={isActive ? "active" : ""} />
