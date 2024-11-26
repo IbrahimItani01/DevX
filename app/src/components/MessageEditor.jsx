@@ -4,16 +4,15 @@ import CodeMirror from "codemirror"; // Code editor library
 import "codemirror/mode/javascript/javascript"; // Example: JavaScript mode
 import "codemirror/lib/codemirror.css"; // Include CodeMirror styles
 import echo from "../utils/echo"; // Import Laravel Echo instance
-import "../styles/CodeEditor.css"; // Add custom styles for the editor
 
-const CodeEditor = ({ userId }) => {
+const MessageEditor = ({ userId }) => {
     const { documentId } = useParams(); // Get the dynamic `documentId` from the URL
     const [content, setContent] = useState(""); // Local state for editor content
     const [editor, setEditor] = useState(null); // Reference to CodeMirror instance
 
     useEffect(() => {
         // Initialize CodeMirror
-        const cmInstance = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+        const cmInstance = CodeMirror.fromTextArea(document.getElementById("message-editor"), {
             mode: "javascript", // Example mode
             lineNumbers: true,
             theme: "default",
@@ -65,10 +64,10 @@ const CodeEditor = ({ userId }) => {
     };
 
     return (
-        <div className="code-editor-container">
-            <textarea id="code-editor" defaultValue={content} />
+        <div className="message-editor-container">
+            <textarea id="message-editor" defaultValue={content} />
         </div>
     );
 };
 
-export default CodeEditor;
+export default MessageEditor;
