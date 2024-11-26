@@ -1,6 +1,9 @@
 import React, { useContext, useState } from 'react'
 import {CirclePlus} from "lucide-react";
 import { filesContext } from '../context/FilesContext';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { snippets } from '../constants';
 const FileAdd = () => {
     const [fileName,setFileName] = useState("");
     const [alert,setAlert]=useState(false);
@@ -10,18 +13,31 @@ const FileAdd = () => {
     }
     const handleFileCreate = ()=>{
         if(fileName){
-          // TODO: handle file create api
-          setFilesData((prev)=>[
-            ...prev,
-            {
-              id:filesData.length + 1,
-              fileName
+          axios.post("http://localhost:8000/api/upload",{
+              file_name: fileName,
+              file_content: snippets["javascript"],
+              file_language: 'javascript'
+          },{
+            headers:{
+              "Content-Type":"application/json",
+              "Authorization":`Bearer ${localStorage.token}`
             }
-          ]
-           
-          )
-          setAlert(false);
-          setFileName("");
+          }).then((response)=>{
+            toast.success(response.data.message);
+            console.log(filesData)
+            setFilesData((prev)=>[
+              ...prev,
+              {
+                id:filesData.length + 1,
+                file_name:fileName
+              }
+            ]
+             
+            )
+            setAlert(false);
+            setFileName("");
+
+          }).catch((e)=>toast.error(e))
         }
         else{
           setAlert(true);
