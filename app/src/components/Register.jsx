@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormInput from "./FormInput";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "./base/Button";
 // import { requestRegister } from "../apis/auth";
 import axios from "axios";
@@ -9,6 +9,8 @@ import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
+  const {fileId,privilege}=useParams();
+
   const handleNav = () => {
     navigate("/login");
   };
@@ -49,9 +51,14 @@ const Register = () => {
           )
           .then((response) => {
             localStorage.setItem("token", response.data.token);
-            navigate("/panel");
-            loggedin();
-            toast.success(response.data.message);
+            if(fileId&&privilege){
+              navigate(`/invite/${fileId}/${privilege}`)
+            }
+            else{
+              navigate("/panel")
+              loggedin();
+              toast.success(response.data.message);
+            }
           })
           .catch((e) => toast.error(e.response.data.message));
       } else {
