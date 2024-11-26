@@ -55,7 +55,9 @@ const FilesProvider = ({ children }) => {
 
   return (
     <filesContext.Provider
-      value={{ filesData, selectedFileId, selectFile, saveContent }}
+      value={{ filesData,
+        selectedFileId,
+        selectFile, saveContent }}
     >
       {children}
     </filesContext.Provider>
