@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import FormInput from "./FormInput";
 import Button from "./base/Button";
@@ -8,15 +8,19 @@ import axios from "axios";
 import { toast } from "react-toastify";
 const Login = () => {
   const navigate = useNavigate();
-  const {fileId,privilege}=useParams();
-  const {loggedin}=useAuth();
+  const { fileId, privilege } = useParams();
+  const { loggedin } = useAuth();
   const [empty, setEmpty] = useState(true);
   const [login, setLogin] = useState({
     email: "",
     password: "",
   });
   const handleNav = () => {
-    navigate("/");
+    if (fileId && privilege) {
+      navigate(`/${fileId}/${privilege}`);
+    } else {
+      navigate("/");
+    }
   };
   const handleChange = (e) => {
     setEmpty(false);
@@ -28,32 +32,30 @@ const Login = () => {
   };
   const handleLogin = () => {
     axios
-    .post(
-      "http://localhost:8000/api/login",
-      {
-        email: login.email,
-        password: login.password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+      .post(
+        "http://localhost:8000/api/login",
+        {
+          email: login.email,
+          password: login.password,
         },
-      }
-    )
-    .then((response) => {
-      toast.success(response.data.message);
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        toast.success(response.data.message);
         localStorage.setItem("token", response.data.token);
         navigate("/panel");
-        if(fileId&&privilege){
-          navigate(`/invite/${fileId}/${privilege}`)
-        }
-        else{
-          navigate("/panel")
+        if (fileId && privilege) {
+          navigate(`/invite/${fileId}/${privilege}`);
+        } else {
+          navigate("/panel");
         }
         loggedin();
-    })
-    .catch((e) => toast.error(e.data.message));
-  
+      })
+      .catch((e) => toast.error(e.data.message));
   };
   return (
     <>
