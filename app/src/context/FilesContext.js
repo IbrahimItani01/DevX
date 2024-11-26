@@ -26,12 +26,29 @@ const FilesProvider = ({ children }) => {
     setSelectedFileId(fileId);
   };
 
-  const saveContent = (fileId, newContent) => {
+  const saveContent = (fileId, newContent,name,language) => {
     setFilesData((prevFiles) =>
       prevFiles.map((file) =>
         file.id === fileId ? { ...file, content: newContent } : file
       )
     );
+    axios.post("http://localhost:8000/api/upload",{
+      file_id:fileId,
+      file_name: name,
+      file_content: newContent,
+      file_language: language
+  },{
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":`Bearer ${localStorage.token}`
+    }
+  }).then((response)=>{
+    setFilesData((prevFiles) =>
+      prevFiles.map((file) =>
+        file.id === fileId ? { ...file, content: newContent } : file
+      )
+    );
+  }).catch((e)=>toast.error(e))
     // Sync with database
     console.log(`Saving file ${fileId}:`, newContent);
   };
