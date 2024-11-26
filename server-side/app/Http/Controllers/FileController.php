@@ -52,7 +52,6 @@ class FileController extends Controller
         }
 
         $validatedData = $request->validate([
-            //  'collaborator_id' => 'required|integer',
             'file_id' => 'required|integer',
             'privilege' => 'required|string',
         ]);
@@ -65,7 +64,7 @@ class FileController extends Controller
     
             return response()->json(['message' => 'Collaborator added successfully.'], 201);
         }catch(\Exception $e){
-            return response()->json(['message' => 'Error adding to DB'], 400);
+            return response()->json(['message' => 'Error adding to DB',$e], 400);
         }
     }
 
