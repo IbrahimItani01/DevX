@@ -7,6 +7,7 @@ import { sendInvite } from "../../apis/sendInvite";
 import { Check } from "lucide-react";
 import {useParams} from "react-router-dom"
 import { userContext } from "../../context/UserContext";
+import { toast } from "react-toastify";
 const InviteField = () => {
   const {id} = useParams();
   const [activeRole, setActiveRole] = useState(null);
@@ -21,25 +22,36 @@ const InviteField = () => {
     setEmail(e.target.value);
   };
   const handleSend = () => {
-    sendInvite(email,id,activeRole,userEmail)
-    setActiveRole(null);
-    setEmail("");
-    setSent(true);
-    setTimeout(() => {
-      setSent(false);
-    }, 1500);
+    if(!activeRole){
+      toast.error("Choose privilege 🥸")
+    }
+    else if(!email){
+      toast.error("Fill invitee email 🥸");
+    }
+    else if(!email && !activeRole){
+      toast.info("FYI: you can't send empty invites 😜 ")
+    }
+    else{
+      sendInvite(email,id,activeRole,userEmail)
+      setActiveRole(null);
+      setEmail("");
+      setSent(true);
+      setTimeout(() => {
+        setSent(false);
+      }, 1500);
+    }
   };
   return (
     <div className="invite-section">
       <RoleIcon
-        role="edit"
+        role="editor"
         isActive={activeRole === "editor"}
-        onClick={() => handleRoleToggle("edit")}
+        onClick={() => handleRoleToggle("editor")}
       />
       <RoleIcon
-        role="view"
+        role="viewer"
         isActive={activeRole === "viewer"}
-        onClick={() => handleRoleToggle("view")}
+        onClick={() => handleRoleToggle("viewer")}
       />
       <Input
         onChange={handleChange}
