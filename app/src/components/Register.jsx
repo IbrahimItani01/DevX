@@ -12,7 +12,12 @@ const Register = () => {
   const {fileId,privilege}=useParams();
 
   const handleNav = () => {
-    navigate("/login");
+    if(fileId&&privilege){
+    navigate(`/login/${fileId}/${privilege}`);
+    }else{
+      navigate("/login");
+
+    }
   };
   const {loggedin}=useAuth();
 
