@@ -16,6 +16,7 @@ const FilesProvider = ({ children }) => {
       })
       .then((response) => {
         const fullData = response.data.owner_files.concat(response.data.collaborator_files);
+        console.log(fullData);
         setFilesData(fullData)
       }).catch((e)=>toast.error(e.response.data))
   }, []);
