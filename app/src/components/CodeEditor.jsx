@@ -5,14 +5,14 @@ import "codemirror/mode/javascript/javascript"; // Example: JavaScript mode
 import "codemirror/lib/codemirror.css"; // Include CodeMirror styles
 import echo from "../utils/echo"; // Import Laravel Echo instance
 
-const MessageEditor = ({ userId }) => {
+const CodeEditor = ({ userId }) => {
     const { documentId } = useParams(); // Get the dynamic `documentId` from the URL
     const [content, setContent] = useState(""); // Local state for editor content
     const [editor, setEditor] = useState(null); // Reference to CodeMirror instance
 
     useEffect(() => {
         // Initialize CodeMirror
-        const cmInstance = CodeMirror.fromTextArea(document.getElementById("message-editor"), {
+        const cmInstance = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
             mode: "javascript", // Example mode
             lineNumbers: true,
             theme: "default",
@@ -34,6 +34,7 @@ const MessageEditor = ({ userId }) => {
         // Subscribe to Laravel Echo for real-time updates
         const channel = echo.channel(`document-${documentId}`);
         channel.listen(".message-sent", (event) => {
+            console.log("Event received:", event);
             if (event.userId !== userId) {
                 // Update the editor content if the change is from another user
                 cmInstance.setValue(event.message);
@@ -64,10 +65,10 @@ const MessageEditor = ({ userId }) => {
     };
 
     return (
-        <div className="message-editor-container">
-            <textarea id="message-editor" defaultValue={content} />
+        <div className="code-editor-container">
+            <textarea id="code-editor" defaultValue={content} />
         </div>
     );
 };
 
-export default MessageEditor;
+export default CodeEditor;
