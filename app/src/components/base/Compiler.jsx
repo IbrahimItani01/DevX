@@ -15,25 +15,18 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import echo from "../../utils/echo";
 import { userContext } from "../../context/UserContext";
-import echo from "../../utils/echo";
-import { userContext } from "../../context/UserContext";
 
 const Compiler = ({ saveContent }) => {
   const { id: documentId } = useParams();
   const { filesData } = useContext(filesContext);
   const { userId } = useContext(userContext);
 
-  // Initialize fileData with defaults
   const [fileData, setFileData] = useState({
     name: "",
     language: "javascript",
   });
-  const editorRef = useRef(null);
-
   const [output, setOutput] = useState(defaultOutput);
-
   const [script, setScript] = useState(null);
-
   const [userInput, setUserInput] = useState("");
 
   const editorRef = useRef(null);
@@ -49,8 +42,6 @@ const Compiler = ({ saveContent }) => {
           language: selectedFile.file_language,
         });
       }
-    }
-  }, [filesData, id]);
 
       axios
         .post("http://localhost:8000/api/getFileContent", { file_id: documentId })
@@ -90,8 +81,6 @@ const Compiler = ({ saveContent }) => {
       }
     };
 
-  // Add and clean up save shortcut listener
-  useEffect(() => {
     document.addEventListener("keydown", handleSaveShortcut);
     return () => {
       document.removeEventListener("keydown", handleSaveShortcut);
