@@ -50,6 +50,7 @@ select,option{
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: scroll;
+    scrollbar-width: none;
     gap: 5px;
 }
 .output-section>p,.input>p{
