@@ -1,0 +1,18 @@
+.signForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.row {
+  width: 100%;
+  gap: 50px;
+}
+
+
+.sign-title{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
