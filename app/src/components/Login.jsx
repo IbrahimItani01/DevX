@@ -56,7 +56,7 @@ const Login = () => {
           }
           loggedin();
         })
-        .catch((e) => toast.error(e.data.message + "❌"));
+        .catch((e) => toast.error("Error logging in ❌"));
     }else{
       toast.info("You can't send empty forms 😜")
     }

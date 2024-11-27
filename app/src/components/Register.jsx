@@ -9,17 +9,16 @@ import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
-  const {fileId,privilege}=useParams();
+  const { fileId, privilege } = useParams();
 
   const handleNav = () => {
-    if(fileId&&privilege){
-    navigate(`/login/${fileId}/${privilege}`);
-    }else{
+    if (fileId && privilege) {
+      navigate(`/login/${fileId}/${privilege}`);
+    } else {
       navigate("/login");
-
     }
   };
-  const {loggedin}=useAuth();
+  const { loggedin } = useAuth();
 
   const [empty, setEmpty] = useState(true);
   const [register, setRegister] = useState({
@@ -55,21 +54,20 @@ const Register = () => {
           )
           .then((response) => {
             localStorage.setItem("token", response.data.token);
-            if(fileId&&privilege){
-              navigate(`/invite/${fileId}/${privilege}`)
-            }
-            else{
-              navigate("/panel")
+            if (fileId && privilege) {
+              navigate(`/invite/${fileId}/${privilege}`);
+            } else {
+              navigate("/panel");
               loggedin();
               toast.success(response.data.message + "✅");
             }
           })
-          .catch((e) => toast.error(e.response.data.message + "❌"));
+          .catch((e) => toast.error("Error registering❌"));
       } else {
         toast.info("Passwords must match! 😜");
       }
-    }else{
-      toast.info("You can't send empty forms 😜")
+    } else {
+      toast.info("You can't send empty forms 😜");
     }
   };
   return (

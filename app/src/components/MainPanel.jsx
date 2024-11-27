@@ -19,7 +19,6 @@ const MainPanel = () => {
             element={
               <>
                 <Header />
-
                 <Compiler saveContent={saveContent} />
               </>
             }

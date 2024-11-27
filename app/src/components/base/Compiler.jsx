@@ -48,7 +48,6 @@ const Compiler = ({ saveContent }) => {
         .post("http://localhost:8000/api/getFileContent", { file_id: documentId })
         .then((res) => setScript(res.data.content))
         .catch((error) => {
-          console.error("Failed to fetch file content:", error);
           toast.error("Could not load file content 🚨");
         });
     }
@@ -162,7 +161,6 @@ const Compiler = ({ saveContent }) => {
       );
       setOutput(result.output);
     } catch (error) {
-      console.error("Error executing code:", error);
       toast.error("Failed to execute code 😿");
     }
   };

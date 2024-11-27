@@ -12,23 +12,29 @@ const InvitePage = () => {
   const handleAcceptInvite = () => {
     const token = localStorage.token;
     if (token) {
-      axios.post("http://localhost:8000/api/create-collab",{
-        file_id:parseInt(fileId),
-        privilege
-      },{
-        headers:{
-          "Content-Type":"application/json",
-          "Authorization":`Bearer ${localStorage.token}`
-        }
-      }).then((res)=>{
-        toast.success("Invite Accepted, you can close tab now 🚀");
-        setTimeout(()=>{
-          navigate("/login");
-        },1500)
-      }).catch((e)=>{
-        console.log(e)
-        toast.error("Something went wrong 😬");
-      })
+      axios
+        .post(
+          "http://localhost:8000/api/create-collab",
+          {
+            file_id: parseInt(fileId),
+            privilege,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          toast.success("Invite Accepted, you can close tab now 🚀");
+          setTimeout(() => {
+            navigate("/login");
+          }, 1500);
+        })
+        .catch((e) => {
+          toast.error("Something went wrong 😬");
+        });
       setDecide(true);
     } else {
       navigate(`/login/${fileId}/${privilege}`);

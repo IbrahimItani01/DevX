@@ -20,18 +20,22 @@ const SideBar = () => {
       navigate(`/panel`);
     } else {
       // Otherwise, set as active and navigate to /panel/{fileId}
-  
+
       setActiveFileId(fileId);
       selectFile(fileId);
       navigate(`/panel/${fileId}`);
-
     }
   };
 
   return (
     <div className="side-bar">
       <div className="file-add">
-        <img alt="logo" src={blackLogo} width={50} onClick={()=>navigate("/panel")}></img>
+        <img
+          alt="logo"
+          src={blackLogo}
+          width={50}
+          onClick={() => navigate("/panel")}
+        ></img>
         <FileAdd />
         <p>Ctrl+s to save file!</p>
       </div>
@@ -41,8 +45,6 @@ const SideBar = () => {
             name={file.file_name}
             key={file.id}
             id={file.id}
-            privilege={file.privilege}
-            language={file.file_language}
             active={file.id === activeFileId} // Check if this file is active
             onClick={() => handleFileClick(file.id)}
           />

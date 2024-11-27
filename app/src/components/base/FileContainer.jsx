@@ -7,8 +7,6 @@ const FileContainer = ({
   name,
   onClick,
   active,
-  language,
-  privilege,
 }) => {
   const[collabs,setCollabs]=useState(0);
   useEffect(() => {

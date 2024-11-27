@@ -17,11 +17,6 @@ class MessageController extends Controller
         // Broadcast changes to other users
         broadcast(new RealTimeMessageEvent($userId, $documentId, $content, $cursorPosition));
 
-        // Optional: Persist the document state in the database
-        // $document = Document::find($documentId);
-        // $document->content = $content;
-        // $document->save();
-
         return response()->json(['success' => true]);
     }
 }

@@ -1,16 +1,12 @@
-import React from 'react'
+import React from "react";
 
-const Output = ({output}) => {
+const Output = ({ output }) => {
   return (
-    <div className='output-section'>
-      <p>
-      Output
-      </p>
-      <pre>
-        {output}
-      </pre>
+    <div className="output-section">
+      <p>Output</p>
+      <pre>{output}</pre>
     </div>
-  )
-}
+  );
+};
 
-export default Output
+export default Output;

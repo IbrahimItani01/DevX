@@ -12,9 +12,6 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 
 Route::post('/update-document', [MessageController::class, 'updateDocument']);
-
-
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -25,15 +22,10 @@ Route::middleware(['jwt'])->group(function () {
     });
 });
 
-
-
 Route::post('/send-invite', [EmailController::class, 'sendEmail']);
-
-Route::post('/get-count', [FileController::class, 'getCollaboratorCount']); // this can expect the file id in the param if needed
+Route::post('/get-count', [FileController::class, 'getCollaboratorCount']);
 Route::post('/create-collab', [FileController::class, 'addCollaborator']);
 Route::get('/get-files', [FileController::class, 'getFiles']);
-
 Route::post('/upload', [UploadController::class, 'upload']);
 Route::post('/getFileContent', [UploadController::class, 'getFileContent']);
-
 Route::get('/getUser', [UserController::class, 'getUser']);
