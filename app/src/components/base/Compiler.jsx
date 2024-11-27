@@ -24,6 +24,7 @@ const Compiler = ({ saveContent }) => {
   const [fileData, setFileData] = useState({
     name: "",
     language: "javascript",
+    privilege: "owner", // Default privilege
   });
   const [output, setOutput] = useState(defaultOutput);
   const [script, setScript] = useState(null);
@@ -40,6 +41,7 @@ const Compiler = ({ saveContent }) => {
         setFileData({
           name: selectedFile.file_name,
           language: selectedFile.file_language,
+          privilege: selectedFile.privilege,
         });
       }
 
