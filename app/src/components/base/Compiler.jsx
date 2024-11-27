@@ -101,11 +101,21 @@ const Compiler = ({ saveContent }) => {
   // Update editor content when script or fileData.language changes
   useEffect(() => {
     if (editorRef.current) {
-      editorRef.current.setValue(script || snippets[fileData.language] || "");
-    }
-  }, [fileData.language]);
+  // Mount the editor and attach local change listener
+  const handleEditorDidMount = (editor) => {
+    editorRef.current = editor;
 
-  // Resize Handler for Editor
+    editor.onDidChangeModelContent(() => {
+      if (!isLocalChange) {
+        const newContent = editor.getValue();
+        const cursorPosition = editor.getPosition();
+        sendUpdate(newContent, cursorPosition);
+      }
+      isLocalChange = false; // Reset flag
+    });
+  };
+
+  // Resize the editor when the window resizes
   useWindowResize(() => {
     if (editorRef.current) {
       editorRef.current.layout();
