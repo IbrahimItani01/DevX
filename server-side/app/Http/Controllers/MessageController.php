@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CodeEditEvent;
+use App\Events\RealTimeMessageEvent;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -15,7 +15,7 @@ class MessageController extends Controller
         $cursorPosition = $request->input('cursorPosition');
 
         // Broadcast changes to other users
-        broadcast(new CodeEditEvent($userId, $documentId, $content, $cursorPosition));
+        broadcast(new RealTimeMessageEvent($userId, $documentId, $content, $cursorPosition));
 
         // Optional: Persist the document state in the database
         // $document = Document::find($documentId);
