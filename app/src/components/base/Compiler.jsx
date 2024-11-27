@@ -101,6 +101,22 @@ const Compiler = ({ saveContent }) => {
   // Update editor content when script or fileData.language changes
   useEffect(() => {
     if (editorRef.current) {
+  // Send updates to the server
+  const sendUpdate = (newContent, cursorPosition) => {
+    fetch("http://localhost:8000/api/update-document", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        documentId,
+        content: newContent,
+        cursorPosition,
+      }),
+    });
+  };
+
   // Mount the editor and attach local change listener
   const handleEditorDidMount = (editor) => {
     editorRef.current = editor;
@@ -155,8 +171,7 @@ const Compiler = ({ saveContent }) => {
           theme="vs-dark"
           language={fileData.language}
           value={script}
-          onMount={(editor) => (editorRef.current = editor)}
-          onChange={(value) => setScript(value)}
+          onMount={handleEditorDidMount} // Set up editor instance and listeners
           options={{
             fontSize: "20px",
           }}
