@@ -77,15 +77,18 @@ const Compiler = ({ saveContent }) => {
   }, [documentId, userId]);
 
   // Handle Save Shortcut
-  const handleSaveShortcut = (e) => {
-    if (e.ctrlKey && e.key === "s") {
-      e.preventDefault();
-      const sourceCode = editorRef.current.getValue();
-      saveContent(id, sourceCode, fileData.name, fileData.language);
-      setScript(sourceCode);
-      toast.success("File saved successfully 👏");
-    }
-  };
+  useEffect(() => {
+    const handleSaveShortcut = (e) => {
+      if (e.ctrlKey && e.key === "s") {
+        e.preventDefault();
+        if (editorRef.current) {
+          const sourceCode = editorRef.current.getValue();
+          saveContent(documentId, sourceCode, fileData.name, fileData.language);
+          setScript(sourceCode);
+          toast.success("File saved successfully 👏");
+        }
+      }
+    };
 
   // Add and clean up save shortcut listener
   useEffect(() => {
