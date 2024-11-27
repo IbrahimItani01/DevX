@@ -11,12 +11,6 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 
-
-Route::get('/test-event', function () {
-    event(new App\Events\RealTimeMessageEvent(1, 123, 'Hello from test route!', ['line' => 3, 'ch' => 5]));
-    return 'Event dispatched!';
-});
-
 Route::post('/update-document', [MessageController::class, 'updateDocument']);
 
 
@@ -43,4 +37,3 @@ Route::post('/upload', [UploadController::class, 'upload']);
 Route::post('/getFileContent', [UploadController::class, 'getFileContent']);
 
 Route::get('/getUser', [UserController::class, 'getUser']);
-Route::post('/getUserPrivilege', [UserController::class, 'getUserPrivilege']);
