@@ -13,7 +13,7 @@ Route::get('/test-event', function () {
     return 'Event dispatched!';
 });
 
-Route::post('/send-message', [MessageController::class, 'sendMessage']);
+Route::post('/update-document', [MessageController::class, 'updateDocument']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
