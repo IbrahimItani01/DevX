@@ -4,7 +4,7 @@ import { createContext, useEffect, useState } from "react";
 export const userContext = createContext();
 
 const UserProvider = ({ children }) => {
-  const [userData, setUserData] = useState({ name: "", userEmail: "" });
+  const [userData, setUserData] = useState({ name: "", userEmail: "" ,userId:-1});
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/getUser", {
@@ -16,6 +16,7 @@ const UserProvider = ({ children }) => {
         setUserData({
           name: res.data.name,
           userEmail: res.data.email,
+          userId:res.data.userId,
         });
       });
   }, []);
