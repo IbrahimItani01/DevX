@@ -62,6 +62,20 @@ const Compiler = ({ saveContent }) => {
     }
   }, [filesData, documentId]);
 
+  // Laravel Echo for real-time collaboration
+  useEffect(() => {
+    const channel = echo.channel(`document-${documentId}`);
+    channel.listen(".message-sent", (event) => {
+      if (event.userId !== userId) {
+        applyRemoteChanges(event.content, event.cursorPosition);
+      }
+    });
+
+    return () => {
+      echo.leaveChannel(`document-${documentId}`);
+    };
+  }, [documentId, userId]);
+
   // Handle Save Shortcut
   const handleSaveShortcut = (e) => {
     if (e.ctrlKey && e.key === "s") {
