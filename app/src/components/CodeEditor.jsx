@@ -1,44 +1,41 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import CodeMirror from "codemirror";
-import "codemirror/mode/javascript/javascript"; // Include JavaScript mode
-import "codemirror/lib/codemirror.css"; // Include CodeMirror styles
-import echo from "../utils/echo"; // Import Laravel Echo instance
+import "codemirror/mode/javascript/javascript";
+import "codemirror/lib/codemirror.css";
+import echo from "../utils/echo";
 
-const MessageEditor = ({ userId }) => {
-    const { documentId } = useParams(); // Get the dynamic `documentId` from the URL
-    const textareaRef = useRef(null); // Ref for the textarea element
-    const [content, setContent] = useState(""); // Local state for editor content
-    const [editor, setEditor] = useState(null); // Reference to CodeMirror instance
+const MessageEditor = () => {
+    const { documentId, userId } = useParams();
+    const textareaRef = useRef(null);
+    const editorRef = useRef(null);
+    let isLocalChange = false; // Track local changes
 
     useEffect(() => {
         if (textareaRef.current) {
-            // Initialize CodeMirror
             const cmInstance = CodeMirror.fromTextArea(textareaRef.current, {
-                mode: "javascript", // Example mode
+                mode: "javascript",
                 lineNumbers: true,
                 theme: "default",
             });
 
+            editorRef.current = cmInstance;
+
             // Handle local content changes
             cmInstance.on("change", (instance) => {
-                const newContent = instance.getValue();
-                setContent(newContent); // Update local state
-
-                // Send updates to the backend
-                sendUpdate(newContent);
+                if (!isLocalChange) {
+                    const newContent = instance.getValue();
+                    sendUpdate(newContent, instance.getCursor());
+                }
+                isLocalChange = false; // Reset flag
             });
-
-            setEditor(cmInstance);
 
             // Subscribe to Laravel Echo for real-time updates
             const channel = echo.channel(`document-${documentId}`);
             channel.listen(".message-sent", (event) => {
                 console.log("Event received:", event);
                 if (event.userId !== userId) {
-                    // Update the editor content if the change is from another user
-                    cmInstance.setValue(event.message);
-                    cmInstance.setCursor(event.cursorPosition);
+                    applyRemoteChanges(event.content, event.cursorPosition);
                 }
             });
 
@@ -49,9 +46,8 @@ const MessageEditor = ({ userId }) => {
         }
     }, [documentId, userId]);
 
-    // Function to send updates to the backend
-    const sendUpdate = (newContent) => {
-        fetch("http://localhost:8000/update-document", {
+    const sendUpdate = (newContent, cursorPosition) => {
+        fetch("http://localhost:8000/api/update-document", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -60,13 +56,36 @@ const MessageEditor = ({ userId }) => {
                 userId,
                 documentId,
                 content: newContent,
+                cursorPosition,
             }),
         });
     };
 
+    const applyRemoteChanges = (newContent, cursorPosition) => {
+        if (editorRef.current) {
+            const cmInstance = editorRef.current;
+
+            if (cmInstance.getValue() !== newContent) {
+                console.log("Updating editor content from remote changes");
+
+                const scrollInfo = cmInstance.getScrollInfo();
+
+                // Suppress the `change` event
+                isLocalChange = true;
+                cmInstance.setValue(newContent);
+                cmInstance.setCursor(cursorPosition);
+                cmInstance.scrollTo(scrollInfo.left, scrollInfo.top);
+            } else {
+                console.log("Content already up-to-date. No update needed.");
+            }
+        } else {
+            console.log("Editor instance not found. Cannot apply remote changes.");
+        }
+    };
+
     return (
         <div className="message-editor-container">
-            <textarea ref={textareaRef} defaultValue={content} />
+            <textarea ref={textareaRef} defaultValue="" />
         </div>
     );
 };
