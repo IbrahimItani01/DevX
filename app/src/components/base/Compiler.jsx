@@ -52,18 +52,15 @@ const Compiler = ({ saveContent }) => {
     }
   }, [filesData, id]);
 
-  // Fetch file content when component loads or id changes
-  useEffect(() => {
-    axios
-      .post("http://localhost:8000/api/getFileContent", { file_id: id })
-      .then((res) => {
-        setScript(res.data.content);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch file content:", error);
-        toast.error("Could not load file content 🚨");
-      });
-  }, [id]);
+      axios
+        .post("http://localhost:8000/api/getFileContent", { file_id: documentId })
+        .then((res) => setScript(res.data.content))
+        .catch((error) => {
+          console.error("Failed to fetch file content:", error);
+          toast.error("Could not load file content 🚨");
+        });
+    }
+  }, [filesData, documentId]);
 
   // Handle Save Shortcut
   const handleSaveShortcut = (e) => {
