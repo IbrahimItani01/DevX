@@ -94,7 +94,7 @@ const Compiler = ({ saveContent }) => {
       const editorInstance = editorRef.current;
 
       if (editorInstance.getValue() !== newContent) {
-        setScript(newContent)
+        setScript(newContent);
         isLocalChange = true; // Suppress local change event
         editorInstance.setValue(newContent);
         if (cursorPosition) {
