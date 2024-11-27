@@ -25,9 +25,8 @@ function App() {
 
         <Route path="/panel" element={<MainPanel />} />
 
-        <Route path="/editor/:documentId" element={
+        <Route path="/editor/:documentId/:userId" element={
           <CodeEditor 
-            userId={1} 
           />
         }/>
       </Routes>
