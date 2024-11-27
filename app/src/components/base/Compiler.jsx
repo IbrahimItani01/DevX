@@ -20,7 +20,6 @@ const Compiler = ({ saveContent }) => {
   const { id: documentId } = useParams();
   const { filesData } = useContext(filesContext);
   const { userId } = useContext(userContext);
-
   const [fileData, setFileData] = useState({
     name: "",
     language: "javascript",
@@ -125,6 +124,14 @@ const Compiler = ({ saveContent }) => {
   const handleEditorDidMount = (editor) => {
     editorRef.current = editor;
 
+    // Disable editing if user is a viewer
+    if (fileData.privilege === "viewer") {
+      editor.onKeyDown((e) => {
+        e.preventDefault();
+        toast.error("You do not have permission to edit this document 🚫");
+      });
+    }
+
     editor.onDidChangeModelContent(() => {
       if (!isLocalChange) {
         const newContent = editor.getValue();
@@ -178,6 +185,7 @@ const Compiler = ({ saveContent }) => {
           onMount={handleEditorDidMount} // Set up editor instance and listeners
           options={{
             fontSize: "20px",
+            readOnly: fileData.privilege === "viewer", // Make editor read-only for viewers
           }}
         />
         <AI script={script} setScript={setScript} />
