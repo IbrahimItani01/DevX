@@ -7,7 +7,19 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\UploadController;
+
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
+
+
+Route::get('/test-event', function () {
+    event(new App\Events\RealTimeMessageEvent(1, 123, 'Hello from test route!', ['line' => 3, 'ch' => 5]));
+    return 'Event dispatched!';
+});
+
+Route::post('/update-document', [MessageController::class, 'updateDocument']);
+
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

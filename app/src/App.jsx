@@ -4,6 +4,8 @@ import MainPanel from "./components/MainPanel";
 import "./styles/layout.css";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import CodeEditor from "./components/CodeEditor";
+
 import FilesProvider from "./context/FilesContext";
 import UserProvider from "./context/UserContext";
 import { AuthProvider } from "./context/AuthContext.js";
@@ -46,7 +48,10 @@ function App() {
             }
           />
           <Route path="/invite/:fileId/:privilege" element={<InvitePage />} />
-
+          <Route path="/editor/:documentId/:userId" element={
+          <CodeEditor 
+          />
+        }/>
         </Routes>
       </BrowserRouter>
       <ToastContainer
@@ -57,6 +62,7 @@ function App() {
         theme="dark"
       />
     </AuthProvider>
+    
   );
 }
 
