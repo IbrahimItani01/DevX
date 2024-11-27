@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\MessageController;
 
+
 Route::get('/test-event', function () {
     event(new App\Events\RealTimeMessageEvent(1, 123, 'Hello from test route!', ['line' => 3, 'ch' => 5]));
     return 'Event dispatched!';
