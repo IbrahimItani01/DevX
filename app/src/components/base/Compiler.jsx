@@ -53,7 +53,7 @@ const Compiler = ({ saveContent }) => {
       })
       .catch((error) => {
         console.error("Failed to fetch file content:", error);
-        toast.error("Could not load file content.");
+        toast.error("Could not load file content 🚨");
       });
   }, [id]);
 
@@ -64,7 +64,7 @@ const Compiler = ({ saveContent }) => {
       const sourceCode = editorRef.current.getValue();
       saveContent(id, sourceCode, fileData.name, fileData.language);
       setScript(sourceCode);
-      toast.success("File saved successfully!");
+      toast.success("File saved successfully 👏");
     }
   };
 
@@ -92,7 +92,7 @@ const Compiler = ({ saveContent }) => {
 
   // Code Execution
   const runCode = async () => {
-    toast.info("Compiling your script :)");
+    toast.info("Compiling your script 🔥");
     if (!script) return;
 
     try {
@@ -104,7 +104,7 @@ const Compiler = ({ saveContent }) => {
       setOutput(result.output);
     } catch (error) {
       console.error("Error executing code:", error);
-      toast.error("Failed to execute code.");
+      toast.error("Failed to execute code 😿");
     }
   };
 

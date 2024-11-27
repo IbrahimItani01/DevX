@@ -23,7 +23,7 @@ const FileAdd = () => {
               "Authorization":`Bearer ${localStorage.token}`
             }
           }).then((response)=>{
-            toast.success(response.data.message);
+            toast.success(response.data.message + "🤩");
             setFilesData((prev)=>[
               ...prev,
               {

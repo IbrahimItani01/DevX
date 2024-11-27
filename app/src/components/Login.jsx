@@ -31,31 +31,35 @@ const Login = () => {
     }));
   };
   const handleLogin = () => {
-    axios
-      .post(
-        "http://localhost:8000/api/login",
-        {
-          email: login.email,
-          password: login.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+    if(login){
+      axios
+        .post(
+          "http://localhost:8000/api/login",
+          {
+            email: login.email,
+            password: login.password,
           },
-        }
-      )
-      .then((response) => {
-        toast.success(response.data.message);
-        localStorage.setItem("token", response.data.token);
-        navigate("/panel");
-        if (fileId && privilege) {
-          navigate(`/invite/${fileId}/${privilege}`);
-        } else {
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          toast.success(response.data.message + "✅");
+          localStorage.setItem("token", response.data.token);
           navigate("/panel");
-        }
-        loggedin();
-      })
-      .catch((e) => toast.error(e.data.message));
+          if (fileId && privilege) {
+            navigate(`/invite/${fileId}/${privilege}`);
+          } else {
+            navigate("/panel");
+          }
+          loggedin();
+        })
+        .catch((e) => toast.error(e.data.message + "❌"));
+    }else{
+      toast.info("You can't send empty forms 😜")
+    }
   };
   return (
     <>
