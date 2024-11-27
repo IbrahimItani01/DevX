@@ -31,3 +31,4 @@ Route::post('/upload', [UploadController::class, 'upload']);
 Route::post('/getFileContent', [UploadController::class, 'getFileContent']);
 
 Route::get('/getUser', [UserController::class, 'getUser']);
+Route::post('/getUserPrivilege', [UserController::class, 'getUserPrivilege']);
