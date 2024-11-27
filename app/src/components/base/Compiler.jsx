@@ -1,18 +1,22 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../styles/compiler.css";
 import Editor from "@monaco-editor/react";
-import { Play, ScrollIcon } from "lucide-react";
+import { Play } from "lucide-react";
 import LanguageSelector from "./LanguageSelector";
 import InputSection from "./InputSection";
 import Output from "./Output";
 import { executeCode } from "../../apis/compile";
 import useWindowResize from "../../hooks/useWindowsResize";
-import { snippets, defaultOutput } from "../../constants";
+import { defaultOutput } from "../../constants";
 import { toast } from "react-toastify";
 import AI from "../AI";
 import { filesContext } from "../../context/FilesContext";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import echo from "../../utils/echo";
+import { userContext } from "../../context/UserContext";
+import echo from "../../utils/echo";
+import { userContext } from "../../context/UserContext";
 
 const Compiler = ({ saveContent }) => {
   const { id } = useParams();
