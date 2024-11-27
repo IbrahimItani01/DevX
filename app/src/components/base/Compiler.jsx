@@ -96,11 +96,24 @@ const Compiler = ({ saveContent }) => {
     return () => {
       document.removeEventListener("keydown", handleSaveShortcut);
     };
-  }, [id, fileData, saveContent]);
+  }, [documentId, fileData, saveContent]);
 
-  // Update editor content when script or fileData.language changes
-  useEffect(() => {
+  // Apply remote changes to the editor
+  const applyRemoteChanges = (newContent, cursorPosition) => {
     if (editorRef.current) {
+      const editorInstance = editorRef.current;
+
+      if (editorInstance.getValue() !== newContent) {
+        setScript(newContent)
+        isLocalChange = true; // Suppress local change event
+        editorInstance.setValue(newContent);
+        if (cursorPosition) {
+          editorInstance.setPosition(cursorPosition);
+        }
+      }
+    }
+  };
+
   // Send updates to the server
   const sendUpdate = (newContent, cursorPosition) => {
     fetch("http://localhost:8000/api/update-document", {
