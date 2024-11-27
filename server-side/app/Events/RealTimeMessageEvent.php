@@ -31,6 +31,6 @@ class RealTimeMessageEvent implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'code-edited';
+        return 'message-sent';
     }
 }
