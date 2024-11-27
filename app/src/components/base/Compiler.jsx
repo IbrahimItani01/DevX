@@ -19,13 +19,14 @@ import echo from "../../utils/echo";
 import { userContext } from "../../context/UserContext";
 
 const Compiler = ({ saveContent }) => {
-  const { id } = useParams();
+  const { id: documentId } = useParams();
   const { filesData } = useContext(filesContext);
+  const { userId } = useContext(userContext);
 
   // Initialize fileData with defaults
   const [fileData, setFileData] = useState({
     name: "",
-    language: "javascript", // Default language
+    language: "javascript",
   });
   const editorRef = useRef(null);
 
@@ -35,10 +36,13 @@ const Compiler = ({ saveContent }) => {
 
   const [userInput, setUserInput] = useState("");
 
-  // Update fileData when filesData or id changes
+  const editorRef = useRef(null);
+  let isLocalChange = false; // Prevents feedback loop
+
+  // Fetch file content and metadata
   useEffect(() => {
-    if (filesData && id) {
-      const selectedFile = filesData.find((file) => file.id == id);
+    if (filesData && documentId) {
+      const selectedFile = filesData.find((file) => file.id == documentId);
       if (selectedFile) {
         setFileData({
           name: selectedFile.file_name,
