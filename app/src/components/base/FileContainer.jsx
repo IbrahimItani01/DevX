@@ -26,7 +26,6 @@ const FileContainer = ({
       )
       .then((res) => {
         setCollabs(res.data.collaborator_count);
-        
       })
       .catch((e) => console.log(e));
   }, []);
@@ -36,9 +35,9 @@ const FileContainer = ({
         <div>
           <File color="black" />
           <p>{name}</p>
-          {active && <ArrowRight color="black" />} {/* Show arrow if active */}
+          {active && <ArrowRight color="black" />}
         </div>
-        {collabs > 0 && <em>{collabs}</em>}
+        {collabs > 0 && <em>🧑‍💻{collabs}</em>}
       </div>
       <div className="separator"></div>
     </div>

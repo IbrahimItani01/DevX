@@ -21,13 +21,13 @@ const InvitePage = () => {
           "Authorization":`Bearer ${localStorage.token}`
         }
       }).then((res)=>{
-        toast.success("Invite Accepted, you can close tab now :)");
+        toast.success("Invite Accepted, you can close tab now 🚀");
         setTimeout(()=>{
           navigate("/login");
         },1500)
       }).catch((e)=>{
         console.log(e)
-        toast.error("Something went wrong :(");
+        toast.error("Something went wrong 😬");
       })
       setDecide(true);
     } else {
@@ -36,7 +36,7 @@ const InvitePage = () => {
   };
   const handleDecline = () => {
     setDecide(true);
-    toast.info("Invite Declined, you can close tab now :)");
+    toast.info("Invite Declined, you can close tab now 👍");
   };
   return (
     <div className="invite-page">

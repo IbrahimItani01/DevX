@@ -11,7 +11,7 @@ const AI = ({ script,setScript }) => {
 
   const generateResponse = (e) => {
     const selectedAction = e.target.textContent;
-    toast.info("Generating...")
+    toast.info("Generating 🌠")
     const systemMessage =
       selectedAction === "Analyze Code"
         ? "reply according to the programming language based on syntax.You are a code analysis assistant you only give hint in a comment. Provide insights  in the form of comments inside script. return the whole script as it was with the extra comments. if you see no code return the initial comment"
@@ -37,12 +37,12 @@ const AI = ({ script,setScript }) => {
       )
       .then((res) => {
         setScript(res.data.choices[0].message.content)
-        toast.success("Done Sir!")
+        toast.success("Done Sir 🫡")
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Something went wrong")
+        toast.error("Something went wrong 🫠")
       });
       setClicked(!clicked)
   };
@@ -50,12 +50,12 @@ const AI = ({ script,setScript }) => {
   return (
     <>
       <div className="ai-button" onClick={handleClick}>
-        {!loading? <BugPlay color="black" /> : <Bug color="black" /> }
+        {!loading? <BugPlay color="black" /> : <Bug color="black"/> }
       </div>
       {clicked && (
         <div className="ai-bubble">
-          <p onClick={generateResponse}>Analyze Code</p>
-          <p onClick={generateResponse}>Fix Errors</p>
+          <p onClick={generateResponse}>👁️ Analyze Code</p>
+          <p onClick={generateResponse}>🛠️ Fix Errors</p>
         </div>
       )}
     </>

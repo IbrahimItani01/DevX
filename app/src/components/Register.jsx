@@ -61,12 +61,12 @@ const Register = () => {
             else{
               navigate("/panel")
               loggedin();
-              toast.success(response.data.message);
+              toast.success(response.data.message + "✅");
             }
           })
-          .catch((e) => toast.error(e.response.data.message));
+          .catch((e) => toast.error(e.response.data.message + "❌"));
       } else {
-        toast.info("Passwords must match!");
+        toast.info("Passwords must match! 😜");
       }
     }else{
       toast.info("You can't send empty forms 😜")
