@@ -8,15 +8,15 @@ const LanguageSelector = ({ language, setFileData }) => {
     <div>
       <select
         name="LANGUAGE"
-        value={language} 
-        onChange={(e) => 
+        value={language}
+        onChange={(e) =>
           setFileData((prev) => ({
-            ...prev, 
-            language: e.target.value,
+            ...prev,
+            language: e.target.value, // Update language in fileData
           }))
         }
       >
-        {languages.map(([lang, version]) => (
+        {languages.map(([lang]) => (
           <option key={lang} value={lang}>
             {lang}
           </option>
