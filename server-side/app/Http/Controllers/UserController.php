@@ -25,6 +25,7 @@ class UserController extends Controller
         return response()->json([
             'name' => $query->name,
             'email' => $query->email,
+            'userId' => $user->id,
         ], 200);
     } else {
         return response()->json([
